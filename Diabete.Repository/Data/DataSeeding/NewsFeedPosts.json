@@ -1,0 +1,34 @@
+[
+  {
+    "Title": "News Post by Medical Syndicate",
+    "Content": "This is a post made by a Medical Syndicate. Here is the content of the post.",
+    "ImageURL": "https://example.com/image1.jpg",
+    "VideoURL": "https://example.com/video1.mp4",
+    "CreatedAt": "2025-04-05T08:00:00",
+    "MedicalSyndicateID": 1,
+    "OrganizationID": null
+  },
+  {
+    "Title": "News Post by Organization",
+    "Content": "This is a post made by an Organization. Here is the content of the post.",
+    "ImageURL": "https://example.com/image2.jpg",
+    "VideoURL": "https://example.com/video2.mp4",
+    "CreatedAt": "2025-04-05T09:00:00",
+    "MedicalSyndicateID": null,
+    "OrganizationID": 2
+  },
+  {
+    "Title": "New Medical Syndicate Update",
+    "Content": "Latest news from the Medical Syndicate.",
+    "CreatedAt": "2025-04-06T10:00:00",
+    "MedicalSyndicateID": 1,
+    "OrganizationID": null
+  },
+  {
+    "Title": "New Organizational Announcement",
+    "Content": "This is an announcement made by the organization.",
+    "CreatedAt": "2025-04-06T11:00:00",
+    "MedicalSyndicateID": null,
+    "OrganizationID": 4
+  }
+]

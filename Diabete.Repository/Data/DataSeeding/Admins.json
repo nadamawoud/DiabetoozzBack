@@ -1,0 +1,26 @@
+[
+    {
+        
+        "Name": "Nada",
+        "Email": "nadaadmin@example.com",
+        "PasswordHash": "11223344"
+    },
+    {
+        
+        "Name": "Noor",
+        "Email": "nooradmin@example.com",
+        "PasswordHash": "987654"
+    },
+    {
+        
+        "Name": "Mohamed",
+        "Email": "mohamedadmin@example.com",
+        "PasswordHash": "112233"
+    },
+    {
+        
+        "Name": "Omar",
+        "Email": "omaradmin@example.com",
+        "PasswordHash": "000112234"
+    }
+]

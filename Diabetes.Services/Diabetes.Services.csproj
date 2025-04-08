@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.36" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.36.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.36.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Diabete.Repository\Diabetes.Repository.csproj" />
+    <ProjectReference Include="..\Diabetoozz.Core\Diabetes.Core.csproj" />
+  </ItemGroup>
+
+</Project>

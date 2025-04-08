@@ -1,0 +1,18 @@
+[
+
+  {
+
+    "Name": "Nada",
+    "Email": "Nadaclerk@example.com",
+    "BirthDate": "2001-04-06T00:00:00",
+    "Gender": "Female",
+    "LicenseCode": "LC-895343",
+    "Phone": "01087549039",
+    "PasswordHash": "12345",
+    "AdminID": 4,
+    "DoctorID": 1
+  }
+
+   
+  
+]

@@ -1,0 +1,13 @@
+[
+    {
+
+        "Name": "Medical Syndicate",
+        "Email": "medsyndicate@example.com",
+        "Phone": "1234567890",
+        "Address": "123 Health St, City, Country",
+        "ProfileDescription": "Description of the Medical Syndicate",
+        "Logo": "logo_url_or_path",
+        "VerificationStatus": true,
+        "PasswordHash": "hashed_password_1"
+    }
+]
