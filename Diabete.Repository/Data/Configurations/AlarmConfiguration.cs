@@ -1,27 +1,24 @@
-﻿using Diabetes.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Diabetes.Core.Entities;
 
-namespace Diabete.Repository.Data.Configurations
+namespace Diabetes.Data.Configurations
 {
-    internal class AlarmConfiguration : IEntityTypeConfiguration<Alarm>
+    public class AlarmConfiguration : IEntityTypeConfiguration<Alarm>
     {
         public void Configure(EntityTypeBuilder<Alarm> builder)
         {
+            builder.ToTable("Alarms");
 
-            // تكوين العلاقة مع CasualUser
+            
+
+            builder.Property(a => a.AlarmType).HasMaxLength(100).IsRequired();
+            builder.Property(a => a.AlarmTime).IsRequired();
+
+            // علاقة Many-to-One مع CasualUser
             builder.HasOne(a => a.CasualUser)
-                   .WithMany(c => c.Alarms)  // المستخدم العادي يملك عدة إنذارات
-                   .HasForeignKey(a => a.CasualUserID);  
-
-            // تحديد أن CasualUserID مطلوب (Not Nullable)
-            builder.Property(a => a.CasualUserID)
-                   .IsRequired();
+                .WithMany(cu => cu.Alarms)
+                .HasForeignKey(a => a.CasualUserID);
         }
     }
 }

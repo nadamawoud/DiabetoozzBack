@@ -30,20 +30,21 @@ namespace Diabetes.Repository.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<int?>("ManagerID")
+                        .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("ID");
 
@@ -63,26 +64,20 @@ namespace Diabetes.Repository.Data.Migrations
 
                     b.Property<string>("AlarmType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("CasualUserID")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("CasualUserID");
 
-                    b.ToTable("Alarms");
+                    b.ToTable("Alarms", (string)null);
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.BloodSugarMeasurement", b =>
+            modelBuilder.Entity("Diabetes.Core.Entities.BloodSugar", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -93,28 +88,22 @@ namespace Diabetes.Repository.Data.Migrations
                     b.Property<int>("CasualUserID")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("GlucoseLevel")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("GlucoseLevel")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("MeasurementDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("MeasurementPeriod")
+                    b.Property<string>("Period")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("CasualUserID");
 
-                    b.ToTable("BloodSugarMeasurements", (string)null);
+                    b.ToTable("BloodSugars", (string)null);
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.CasualUser", b =>
@@ -128,30 +117,104 @@ namespace Diabetes.Repository.Data.Migrations
                     b.Property<int>("AdminID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("AdminID");
 
-                    b.ToTable("CasualUsers");
+                    b.ToTable("CasualUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Diabetes.Core.Entities.ChatbotAnswerCasualUser", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<DateTime>("AnswerDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("AnswerText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CasualUserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChatbotQuestionCasualUserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CasualUserID");
+
+                    b.HasIndex("ChatbotQuestionCasualUserID")
+                        .IsUnique();
+
+                    b.ToTable("ChatbotAnswerCasualUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Diabetes.Core.Entities.ChatbotAnswerDoctor", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<DateTime>("AnswerDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("AnswerText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ChatbotQuestionDoctorID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ChatbotQuestionDoctorID")
+                        .IsUnique();
+
+                    b.HasIndex("DoctorID");
+
+                    b.ToTable("ChatbotAnswerDoctors", (string)null);
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.ChatbotQuestionCasualUser", b =>
@@ -162,13 +225,10 @@ namespace Diabetes.Repository.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("AdminID")
+                    b.Property<int>("AdminID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CasualUserID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ChatbotQuestionCasualUserText")
+                    b.Property<string>("QuestionText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -176,9 +236,7 @@ namespace Diabetes.Repository.Data.Migrations
 
                     b.HasIndex("AdminID");
 
-                    b.HasIndex("CasualUserID");
-
-                    b.ToTable("ChatbotQuestionCasualUsers");
+                    b.ToTable("ChatbotQuestionCasualUsers", (string)null);
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.ChatbotQuestionDoctor", b =>
@@ -192,20 +250,43 @@ namespace Diabetes.Repository.Data.Migrations
                     b.Property<int>("AdminID")
                         .HasColumnType("int");
 
-                    b.Property<string>("ChatbotQuestionDoctorText")
+                    b.Property<string>("QuestionText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DoctorID")
-                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("AdminID");
 
-                    b.HasIndex("DoctorID");
+                    b.ToTable("ChatbotQuestionDoctors", (string)null);
+                });
 
-                    b.ToTable("ChatbotQuestionDoctors");
+            modelBuilder.Entity("Diabetes.Core.Entities.ChatbotResultCasualUser", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<int>("CasualUserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Result")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("ResultDate")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CasualUserID");
+
+                    b.HasIndex("ResultDate");
+
+                    b.ToTable("ChatbotResultCasualUsers", (string)null);
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Clerk", b =>
@@ -222,43 +303,47 @@ namespace Diabetes.Repository.Data.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DoctorID")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("LicenseCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("AdminID");
 
-                    b.HasIndex("DoctorID");
-
-                    b.ToTable("Clerks");
+                    b.ToTable("Clerks", (string)null);
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.Diagnosis", b =>
+            modelBuilder.Entity("Diabetes.Core.Entities.DiagnosisType", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -266,63 +351,14 @@ namespace Diabetes.Repository.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<DateTime>("DiagnosisDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DiagnosisID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DiagnosisResult")
+                    b.Property<string>("TypeName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DiseaseID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LabResults")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SuggestedLifestyle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Symptoms")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("DiseaseID");
-
-                    b.HasIndex("PatientID")
-                        .IsUnique();
-
-                    b.ToTable("Diagnoses");
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.Disease", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Diseases");
+                    b.ToTable("DiagnosisTypes", (string)null);
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Doctor", b =>
@@ -339,20 +375,18 @@ namespace Diabetes.Repository.Data.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("DoctorTitle")
+                    b.Property<string>("DoctorSpecialization")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -361,11 +395,8 @@ namespace Diabetes.Repository.Data.Migrations
 
                     b.Property<string>("MedicalSyndicateCardNumber")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("MedicalSyndicateID")
-                        .HasColumnType("int");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -377,23 +408,74 @@ namespace Diabetes.Repository.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("VerificationStatus")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("AdminID");
 
-                    b.HasIndex("MedicalSyndicateID");
-
                     b.ToTable("Doctors", (string)null);
+                });
+
+            modelBuilder.Entity("Diabetes.Core.Entities.DoctorApproval", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<DateTime?>("ApprovalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ApprovalStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrganizationID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("DoctorID")
+                        .IsUnique();
+
+                    b.HasIndex("OrganizationID");
+
+                    b.ToTable("DoctorApprovals", (string)null);
+                });
+
+            modelBuilder.Entity("Diabetes.Core.Entities.FoodItem", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("FoodName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("GlycemicCategory")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("GlycemicIndex")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("FoodItems", (string)null);
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Manager", b =>
@@ -404,27 +486,27 @@ namespace Diabetes.Repository.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("AdminID")
+                    b.Property<int?>("AdminID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AdminID");
+                    b.HasIndex("AdminID")
+                        .IsUnique()
+                        .HasFilter("[AdminID] IS NOT NULL");
 
                     b.ToTable("Managers", (string)null);
                 });
@@ -437,134 +519,27 @@ namespace Diabetes.Repository.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("AdminID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ChatbotData")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("Diagnosis")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<DateTime>("DiagnosisDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DiagnosisTypeID")
+                        .HasColumnType("int");
 
                     b.Property<int>("DoctorID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ManagerID")
+                    b.Property<int>("PatientID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AdminID");
+                    b.HasIndex("DiagnosisTypeID");
 
                     b.HasIndex("DoctorID");
 
-                    b.HasIndex("ManagerID");
+                    b.HasIndex("PatientID");
 
                     b.ToTable("MedicalHistories", (string)null);
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.MedicalSyndicate", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Logo")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("ProfileDescription")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<bool>("VerificationStatus")
-                        .HasColumnType("bit");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("MedicalSyndicates", (string)null);
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.NewsFeedPost", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("ImageURL")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int?>("MedicalSyndicateID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrganizationID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("VideoURL")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("MedicalSyndicateID");
-
-                    b.HasIndex("OrganizationID");
-
-                    b.ToTable("NewsFeedPosts", (string)null);
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Organization", b =>
@@ -582,6 +557,9 @@ namespace Diabetes.Repository.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("IsMedicalSyndicate")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -608,19 +586,17 @@ namespace Diabetes.Repository.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("Age")
+                    b.Property<int>("AdminID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ClerkID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<int>("DoctorID")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -639,14 +615,14 @@ namespace Diabetes.Repository.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ClerkID");
+                    b.HasIndex("AdminID");
 
-                    b.HasIndex("DoctorID");
+                    b.HasIndex("ClerkID");
 
                     b.ToTable("Patients", (string)null);
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.Report", b =>
+            modelBuilder.Entity("Diabetes.Core.Entities.Post", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -654,53 +630,39 @@ namespace Diabetes.Repository.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("CasualUserID")
-                        .HasColumnType("int");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DoctorID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FilePath")
+                    b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Format")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("GeneratedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<int>("ManagerID")
+                    b.Property<int>("OrganizationID")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReportType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime>("PublishDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("VideoURL")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CasualUserID");
+                    b.HasIndex("OrganizationID");
 
-                    b.HasIndex("DoctorID");
-
-                    b.HasIndex("ManagerID");
-
-                    b.ToTable("Reports", (string)null);
+                    b.ToTable("Posts", (string)null);
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.SuggestionFood", b =>
+            modelBuilder.Entity("Diabetes.Core.Entities.SuggestedFood", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -708,102 +670,42 @@ namespace Diabetes.Repository.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("FoodName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<int>("FoodItemID")
+                        .HasColumnType("int");
 
                     b.Property<int>("PatientID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SuggestedBy")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("PatientID")
-                        .IsUnique();
-
-                    b.ToTable("SuggestionFoods", (string)null);
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.SuspectDiabetesResult", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<DateTime>("AnalysisDate")
+                    b.Property<DateTime>("SuggestedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Recommendation")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("RiskLevel")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.HasKey("ID");
 
-                    b.ToTable("SuspectDiabetesResults", (string)null);
+                    b.HasIndex("DoctorID");
+
+                    b.HasIndex("FoodItemID");
+
+                    b.HasIndex("PatientID");
+
+                    b.ToTable("SuggestedFoods", (string)null);
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.Symptoms", b =>
+            modelBuilder.Entity("DoctorPatient", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("DoctorsID")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<int>("CasualUserID")
+                    b.Property<int>("PatientsID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.HasKey("DoctorsID", "PatientsID");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                    b.HasIndex("PatientsID");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("SeverityLevel")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SuspectResultID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CasualUserID");
-
-                    b.HasIndex("SuspectResultID");
-
-                    b.ToTable("Symptoms", (string)null);
+                    b.ToTable("DoctorPatient");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Alarm", b =>
@@ -817,10 +719,10 @@ namespace Diabetes.Repository.Data.Migrations
                     b.Navigation("CasualUser");
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.BloodSugarMeasurement", b =>
+            modelBuilder.Entity("Diabetes.Core.Entities.BloodSugar", b =>
                 {
                     b.HasOne("Diabetes.Core.Entities.CasualUser", "CasualUser")
-                        .WithMany("BloodSugarMeasurements")
+                        .WithMany("BloodSugars")
                         .HasForeignKey("CasualUserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -839,21 +741,53 @@ namespace Diabetes.Repository.Data.Migrations
                     b.Navigation("Admin");
                 });
 
+            modelBuilder.Entity("Diabetes.Core.Entities.ChatbotAnswerCasualUser", b =>
+                {
+                    b.HasOne("Diabetes.Core.Entities.CasualUser", "CasualUser")
+                        .WithMany("ChatbotAnswerCasualUsers")
+                        .HasForeignKey("CasualUserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Diabetes.Core.Entities.ChatbotQuestionCasualUser", "ChatbotQuestionCasualUser")
+                        .WithOne("ChatbotAnswerCasualUser")
+                        .HasForeignKey("Diabetes.Core.Entities.ChatbotAnswerCasualUser", "ChatbotQuestionCasualUserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("CasualUser");
+
+                    b.Navigation("ChatbotQuestionCasualUser");
+                });
+
+            modelBuilder.Entity("Diabetes.Core.Entities.ChatbotAnswerDoctor", b =>
+                {
+                    b.HasOne("Diabetes.Core.Entities.ChatbotQuestionDoctor", "ChatbotQuestionDoctor")
+                        .WithOne("ChatbotAnswerDoctor")
+                        .HasForeignKey("Diabetes.Core.Entities.ChatbotAnswerDoctor", "ChatbotQuestionDoctorID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Diabetes.Core.Entities.Doctor", "Doctor")
+                        .WithMany("ChatbotAnswerDoctors")
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ChatbotQuestionDoctor");
+
+                    b.Navigation("Doctor");
+                });
+
             modelBuilder.Entity("Diabetes.Core.Entities.ChatbotQuestionCasualUser", b =>
                 {
                     b.HasOne("Diabetes.Core.Entities.Admin", "Admin")
                         .WithMany("ChatbotQuestionCasualUsers")
-                        .HasForeignKey("AdminID");
-
-                    b.HasOne("Diabetes.Core.Entities.CasualUser", "CasualUser")
-                        .WithMany("ChatbotQuestionCasualUsers")
-                        .HasForeignKey("CasualUserID")
+                        .HasForeignKey("AdminID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Admin");
-
-                    b.Navigation("CasualUser");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.ChatbotQuestionDoctor", b =>
@@ -861,18 +795,21 @@ namespace Diabetes.Repository.Data.Migrations
                     b.HasOne("Diabetes.Core.Entities.Admin", "Admin")
                         .WithMany("ChatbotQuestionDoctors")
                         .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Diabetes.Core.Entities.Doctor", "Doctor")
-                        .WithMany("ChatbotQuestionDoctors")
-                        .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Admin");
+                });
 
-                    b.Navigation("Doctor");
+            modelBuilder.Entity("Diabetes.Core.Entities.ChatbotResultCasualUser", b =>
+                {
+                    b.HasOne("Diabetes.Core.Entities.CasualUser", "CasualUser")
+                        .WithMany("ChatbotResultCasualUsers")
+                        .HasForeignKey("CasualUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CasualUser");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Clerk", b =>
@@ -880,37 +817,10 @@ namespace Diabetes.Repository.Data.Migrations
                     b.HasOne("Diabetes.Core.Entities.Admin", "Admin")
                         .WithMany("Clerks")
                         .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Diabetes.Core.Entities.Doctor", "Doctor")
-                        .WithMany("Clerks")
-                        .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Admin");
-
-                    b.Navigation("Doctor");
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.Diagnosis", b =>
-                {
-                    b.HasOne("Diabetes.Core.Entities.Disease", "Disease")
-                        .WithMany()
-                        .HasForeignKey("DiseaseID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Diabetes.Core.Entities.Patient", "Patient")
-                        .WithOne("Diagnosis")
-                        .HasForeignKey("Diabetes.Core.Entities.Diagnosis", "PatientID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Disease");
-
-                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Doctor", b =>
@@ -918,73 +828,65 @@ namespace Diabetes.Repository.Data.Migrations
                     b.HasOne("Diabetes.Core.Entities.Admin", "Admin")
                         .WithMany("Doctors")
                         .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Diabetes.Core.Entities.MedicalSyndicate", "MedicalSyndicate")
-                        .WithMany("Doctors")
-                        .HasForeignKey("MedicalSyndicateID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Admin");
+                });
 
-                    b.Navigation("MedicalSyndicate");
+            modelBuilder.Entity("Diabetes.Core.Entities.DoctorApproval", b =>
+                {
+                    b.HasOne("Diabetes.Core.Entities.Doctor", "Doctor")
+                        .WithOne("DoctorApproval")
+                        .HasForeignKey("Diabetes.Core.Entities.DoctorApproval", "DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Diabetes.Core.Entities.Organization", "Organization")
+                        .WithMany("DoctorApprovals")
+                        .HasForeignKey("OrganizationID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Manager", b =>
                 {
                     b.HasOne("Diabetes.Core.Entities.Admin", "Admin")
-                        .WithMany("Managers")
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .WithOne("Manager")
+                        .HasForeignKey("Diabetes.Core.Entities.Manager", "AdminID");
 
                     b.Navigation("Admin");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.MedicalHistory", b =>
                 {
-                    b.HasOne("Diabetes.Core.Entities.Admin", "Admin")
+                    b.HasOne("Diabetes.Core.Entities.DiagnosisType", "DiagnosisType")
                         .WithMany("MedicalHistories")
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("DiagnosisTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Diabetes.Core.Entities.Doctor", "Doctor")
                         .WithMany("MedicalHistories")
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Diabetes.Core.Entities.Manager", "Manager")
+                    b.HasOne("Diabetes.Core.Entities.Patient", "Patient")
                         .WithMany("MedicalHistories")
-                        .HasForeignKey("ManagerID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Admin");
+                    b.Navigation("DiagnosisType");
 
                     b.Navigation("Doctor");
 
-                    b.Navigation("Manager");
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.NewsFeedPost", b =>
-                {
-                    b.HasOne("Diabetes.Core.Entities.MedicalSyndicate", "MedicalSyndicate")
-                        .WithMany("NewsFeedPosts")
-                        .HasForeignKey("MedicalSyndicateID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Diabetes.Core.Entities.Organization", "Organization")
-                        .WithMany("NewsFeedPosts")
-                        .HasForeignKey("OrganizationID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("MedicalSyndicate");
-
-                    b.Navigation("Organization");
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Organization", b =>
@@ -1000,78 +902,74 @@ namespace Diabetes.Repository.Data.Migrations
 
             modelBuilder.Entity("Diabetes.Core.Entities.Patient", b =>
                 {
+                    b.HasOne("Diabetes.Core.Entities.Admin", "Admin")
+                        .WithMany("Patients")
+                        .HasForeignKey("AdminID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Diabetes.Core.Entities.Clerk", "Clerk")
                         .WithMany("Patients")
                         .HasForeignKey("ClerkID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Diabetes.Core.Entities.Doctor", "Doctor")
-                        .WithMany("Patients")
-                        .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Admin");
 
                     b.Navigation("Clerk");
-
-                    b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.Report", b =>
+            modelBuilder.Entity("Diabetes.Core.Entities.Post", b =>
                 {
-                    b.HasOne("Diabetes.Core.Entities.CasualUser", "CasualUser")
-                        .WithMany("Reports")
-                        .HasForeignKey("CasualUserID")
+                    b.HasOne("Diabetes.Core.Entities.Organization", "Organization")
+                        .WithMany("Posts")
+                        .HasForeignKey("OrganizationID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Organization");
+                });
+
+            modelBuilder.Entity("Diabetes.Core.Entities.SuggestedFood", b =>
+                {
                     b.HasOne("Diabetes.Core.Entities.Doctor", "Doctor")
-                        .WithMany("Reports")
+                        .WithMany("SuggestedFoods")
                         .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Diabetes.Core.Entities.Manager", "Manager")
-                        .WithMany("Reports")
-                        .HasForeignKey("ManagerID")
+                    b.HasOne("Diabetes.Core.Entities.FoodItem", "FoodItem")
+                        .WithMany("SuggestedFoods")
+                        .HasForeignKey("FoodItemID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("CasualUser");
+                    b.HasOne("Diabetes.Core.Entities.Patient", "Patient")
+                        .WithMany("SuggestedFoods")
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Doctor");
 
-                    b.Navigation("Manager");
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.SuggestionFood", b =>
-                {
-                    b.HasOne("Diabetes.Core.Entities.Patient", "Patient")
-                        .WithOne("SuggestionFood")
-                        .HasForeignKey("Diabetes.Core.Entities.SuggestionFood", "PatientID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("FoodItem");
 
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.Symptoms", b =>
+            modelBuilder.Entity("DoctorPatient", b =>
                 {
-                    b.HasOne("Diabetes.Core.Entities.CasualUser", "CasualUser")
-                        .WithMany("Symptoms")
-                        .HasForeignKey("CasualUserID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("Diabetes.Core.Entities.Doctor", null)
+                        .WithMany()
+                        .HasForeignKey("DoctorsID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Diabetes.Core.Entities.SuspectDiabetesResult", "SuspectDiabetesResult")
-                        .WithMany("Symptoms")
-                        .HasForeignKey("SuspectResultID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("Diabetes.Core.Entities.Patient", null)
+                        .WithMany()
+                        .HasForeignKey("PatientsID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CasualUser");
-
-                    b.Navigation("SuspectDiabetesResult");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Admin", b =>
@@ -1086,24 +984,35 @@ namespace Diabetes.Repository.Data.Migrations
 
                     b.Navigation("Doctors");
 
-                    b.Navigation("Managers");
-
-                    b.Navigation("MedicalHistories");
+                    b.Navigation("Manager")
+                        .IsRequired();
 
                     b.Navigation("Organizations");
+
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.CasualUser", b =>
                 {
                     b.Navigation("Alarms");
 
-                    b.Navigation("BloodSugarMeasurements");
+                    b.Navigation("BloodSugars");
 
-                    b.Navigation("ChatbotQuestionCasualUsers");
+                    b.Navigation("ChatbotAnswerCasualUsers");
 
-                    b.Navigation("Reports");
+                    b.Navigation("ChatbotResultCasualUsers");
+                });
 
-                    b.Navigation("Symptoms");
+            modelBuilder.Entity("Diabetes.Core.Entities.ChatbotQuestionCasualUser", b =>
+                {
+                    b.Navigation("ChatbotAnswerCasualUser")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Diabetes.Core.Entities.ChatbotQuestionDoctor", b =>
+                {
+                    b.Navigation("ChatbotAnswerDoctor")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Clerk", b =>
@@ -1111,50 +1020,40 @@ namespace Diabetes.Repository.Data.Migrations
                     b.Navigation("Patients");
                 });
 
+            modelBuilder.Entity("Diabetes.Core.Entities.DiagnosisType", b =>
+                {
+                    b.Navigation("MedicalHistories");
+                });
+
             modelBuilder.Entity("Diabetes.Core.Entities.Doctor", b =>
                 {
-                    b.Navigation("ChatbotQuestionDoctors");
+                    b.Navigation("ChatbotAnswerDoctors");
 
-                    b.Navigation("Clerks");
+                    b.Navigation("DoctorApproval")
+                        .IsRequired();
 
                     b.Navigation("MedicalHistories");
 
-                    b.Navigation("Patients");
-
-                    b.Navigation("Reports");
+                    b.Navigation("SuggestedFoods");
                 });
 
-            modelBuilder.Entity("Diabetes.Core.Entities.Manager", b =>
+            modelBuilder.Entity("Diabetes.Core.Entities.FoodItem", b =>
                 {
-                    b.Navigation("MedicalHistories");
-
-                    b.Navigation("Reports");
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.MedicalSyndicate", b =>
-                {
-                    b.Navigation("Doctors");
-
-                    b.Navigation("NewsFeedPosts");
+                    b.Navigation("SuggestedFoods");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Organization", b =>
                 {
-                    b.Navigation("NewsFeedPosts");
+                    b.Navigation("DoctorApprovals");
+
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("Diabetes.Core.Entities.Patient", b =>
                 {
-                    b.Navigation("Diagnosis")
-                        .IsRequired();
+                    b.Navigation("MedicalHistories");
 
-                    b.Navigation("SuggestionFood")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Diabetes.Core.Entities.SuspectDiabetesResult", b =>
-                {
-                    b.Navigation("Symptoms");
+                    b.Navigation("SuggestedFoods");
                 });
 #pragma warning restore 612, 618
         }

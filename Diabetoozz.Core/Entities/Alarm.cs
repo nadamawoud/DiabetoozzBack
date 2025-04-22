@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 namespace Diabetes.Core.Entities
 {
     public class Alarm : BaseEntity
-    {
-        
-        public int CasualUserID { get; set; } // Foreign Key to CasualUser
-        public string AlarmType { get; set; }
-        public DateTime AlarmTime { get; set; }
-        public string Notes { get; set; }
-        public DateTime CreatedAt { get; set; }
+    {           
+            public string AlarmType { get; set; }
+            public DateTime AlarmTime { get; set; }
 
-        // Navigation Property for CasualUser
+        // Navigation property
+        public int CasualUserID { get; set; }
         public CasualUser CasualUser { get; set; }
+        
     }
 }

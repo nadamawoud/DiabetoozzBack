@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Diabetes.Core.Entities;
 
-namespace Diabetes.Infrastructure.Configurations
+namespace Diabetes.Data.Configurations
 {
     public class AdminConfiguration : IEntityTypeConfiguration<Admin>
     {
@@ -10,51 +10,48 @@ namespace Diabetes.Infrastructure.Configurations
         {
             builder.ToTable("Admins");
 
-            builder.HasKey(a => a.ID);
+            builder.Property(a => a.Email).HasMaxLength(100).IsRequired();
+            builder.Property(a => a.PasswordHash).HasMaxLength(256).IsRequired();
 
-            builder.Property(a => a.Name).HasMaxLength(200).IsRequired();
-            builder.Property(a => a.Email).HasMaxLength(250).IsRequired();
-            builder.Property(a => a.PasswordHash).HasMaxLength(500).IsRequired();
+            // تكوين علاقة 1-to-1
+            builder.HasOne(a => a.Manager)
+                   .WithOne(m => m.Admin)
+                   .HasForeignKey<Admin>(a => a.ManagerID);
 
-            // علاقة One-to-Many مع Organization
-            builder.HasMany(a => a.Organizations)
-                .WithOne(o => o.Admin)
-                .HasForeignKey(o => o.AdminID);
-
-            // علاقة One-to-Many مع Clerk
+            // 1-to-Many with Clerk
             builder.HasMany(a => a.Clerks)
-                .WithOne(c => c.Admin)
-                .HasForeignKey(c => c.AdminID);
+                   .WithOne(c => c.Admin)
+                   .HasForeignKey(c => c.AdminID);
 
-            // علاقة One-to-Many مع Doctor
+            // 1-to-Many with Doctor
             builder.HasMany(a => a.Doctors)
-                .WithOne(d => d.Admin)
-                .HasForeignKey(d => d.AdminID);
+                   .WithOne(d => d.Admin)
+                   .HasForeignKey(d => d.AdminID);
 
-            // علاقة One-to-Many مع CasualUser
+            // 1-to-Many with Patient
+            builder.HasMany(a => a.Patients)
+                   .WithOne(p => p.Admin)
+                   .HasForeignKey(p => p.AdminID);
+
+            // 1-to-Many with Organization
+            builder.HasMany(a => a.Organizations)
+                   .WithOne(o => o.Admin)
+                   .HasForeignKey(o => o.AdminID);
+
+            // 1-to-Many with CasualUser
             builder.HasMany(a => a.CasualUsers)
-                .WithOne(cu => cu.Admin)
-                .HasForeignKey(cu => cu.AdminID);
+                   .WithOne(c => c.Admin)
+                   .HasForeignKey(c => c.AdminID);
 
-            // علاقة One-to-Many مع ChatbotQuestionDoctor
+            // 1-to-Many with ChatbotQuestionDoctor
             builder.HasMany(a => a.ChatbotQuestionDoctors)
-                .WithOne(cqd => cqd.Admin)
-                .HasForeignKey(cqd => cqd.AdminID);
+                   .WithOne(c => c.Admin)
+                   .HasForeignKey(c => c.AdminID);
 
-            // علاقة One-to-Many مع ChatbotQuestionCasualUser
+            // 1-to-Many with ChatbotQuestionCasualUser
             builder.HasMany(a => a.ChatbotQuestionCasualUsers)
-                .WithOne(cqcu => cqcu.Admin)
-                .HasForeignKey(cqcu => cqcu.AdminID);
-
-            // علاقة One-to-Many مع Manager
-            builder.HasMany(a => a.Managers)
-                .WithOne(m => m.Admin)
-                .HasForeignKey(m => m.AdminID);
-
-            // علاقة One-to-Many مع MedicalHistory
-            builder.HasMany(a => a.MedicalHistories)
-                .WithOne(mh => mh.Admin)
-                .HasForeignKey(mh => mh.AdminID);
+                   .WithOne(c => c.Admin)
+                   .HasForeignKey(c => c.AdminID);
         }
     }
 }

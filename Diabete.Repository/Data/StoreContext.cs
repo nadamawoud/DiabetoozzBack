@@ -26,26 +26,28 @@ namespace Diabetes.Repository.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<Manager> Managers { get; set; }
-        public DbSet<Organization> Organizations { get; set; }
-        public DbSet<MedicalSyndicate> MedicalSyndicates { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Clerk> Clerks { get; set; }
-        public DbSet<CasualUser> CasualUsers { get; set; }
-        public DbSet<MedicalHistory> MedicalHistories { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<NewsFeedPost> NewsFeedPosts { get; set; }
-        public DbSet<Report> Reports { get; set; }
-        public DbSet<Disease> Diseases { get; set; }
-        public DbSet<SuspectDiabetesResult> SuspectDiabetesResults { get; set; }
-        public DbSet<Symptoms> Symptoms { get; set; }
-        public DbSet<Diagnosis> Diagnoses { get; set; }
-        public DbSet<Alarm> Alarms { get; set; }
-        public DbSet<BloodSugarMeasurement> BloodSugarMeasurements { get; set; }
-        public DbSet<ChatbotQuestionDoctor> ChatbotQuestionDoctors { get; set; }
-        public DbSet<ChatbotQuestionCasualUser> ChatbotQuestionCasualUsers { get; set; }
-        public DbSet<SuggestionFood> SuggestionFoods { get; set; }
+        public DbSet<Admin> Admins { get; set; }//1
+        public DbSet<Alarm> Alarms { get; set; }//2
+       
+        public DbSet<BloodSugar> BloodSugars { get; set; }//4
+        public DbSet<ChatbotAnswerCasualUser> ChatbotAnswerCasualUsers { get; set; }//5
+        public DbSet<ChatbotQuestionCasualUser> ChatbotQuestionCasualUsers { get; set; }//6
+        public DbSet<ChatbotResultCasualUser> ChatbotResultCasualUsers { get; set; }//7
+        public DbSet<ChatbotAnswerDoctor> ChatbotAnswerDoctors { get; set; }//8
+        public DbSet<ChatbotQuestionDoctor> ChatbotQuestionDoctors { get; set; }//9
+        public DbSet<CasualUser> CasualUsers { get; set; } //10
+        public DbSet<Clerk> Clerks { get; set; }//11
+        public DbSet<DiagnosisType> DiagnosisTypes { get; set; }//12
+        public DbSet<Doctor> Doctors { get; set; } //13
+        public DbSet<DoctorApproval> DoctorApprovals { get; set; } //14
+        
+        public DbSet<FoodItem> FoodItems { get; set; }  //16
+        public DbSet<Manager> Managers { get; set; }    //17
+        public DbSet<MedicalHistory> MedicalHistories { get; set; } //18
+        public DbSet<Organization> Organizations { get; set; } //19
+        public DbSet<Patient> Patients { get; set; } //20
+        public DbSet<Post> Posts { get; set; } //21
+        public DbSet<SuggestedFood> SuggestedFoods { get; set; } //22
 
     }
 }

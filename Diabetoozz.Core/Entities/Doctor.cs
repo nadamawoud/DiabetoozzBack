@@ -8,34 +8,32 @@ namespace Diabetes.Core.Entities
 {
     public class Doctor : BaseEntity
     {
+       
         
-        public string DoctorTitle { get; set; }
+        public string DoctorSpecialization { get; set; }
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
-        public string Phone { get; set; }
         public string Gender { get; set; }
+        public string PhoneNumber { get; set; }
         public string MedicalSyndicateCardNumber { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public string VerificationStatus { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-
-        // Navigation Property
+        // Navigation properties
         public int AdminID { get; set; }
-        public Admin Admin { get; set; } // العلاقة مع Admin
+        public Admin Admin { get; set; }
+        
+        public DoctorApproval DoctorApproval { get; set; }
 
-        // Navigation Property for MedicalSyndicate
-        public int MedicalSyndicateID { get; set; } // Foreign Key to MedicalSyndicate
-        public MedicalSyndicate MedicalSyndicate { get; set; }
-
-        //Relation many
-        public virtual ICollection<MedicalHistory> MedicalHistories { get; set; } = new List<MedicalHistory>();
-        public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
-        public virtual ICollection<Patient> Patients { get; set; } = new List<Patient>();
-        public virtual ICollection<ChatbotQuestionDoctor> ChatbotQuestionDoctors { get; set; } = new List<ChatbotQuestionDoctor>();
-        public virtual ICollection<Clerk> Clerks { get; set; } =new List<Clerk>();
-       
-
+        //many to many relation
+        public ICollection<MedicalHistory> MedicalHistories { get; set; }
+        public ICollection<SuggestedFood> SuggestedFoods { get; set; }
+        public ICollection<ChatbotAnswerDoctor> ChatbotAnswerDoctors { get; set; }
+        public ICollection<Patient> Patients { get; set; }
+        
     }
 }
+
+
+

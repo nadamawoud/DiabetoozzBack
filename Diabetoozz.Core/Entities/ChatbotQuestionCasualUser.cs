@@ -7,20 +7,14 @@ using System.Threading.Tasks;
 namespace Diabetes.Core.Entities
 {
     public class ChatbotQuestionCasualUser : BaseEntity
-    {
+    {          
+            public string QuestionText { get; set; }
+
+        // Navigation properties
+        public int AdminID { get; set; }
+        public Admin Admin { get; set; }
         
-        public string ChatbotQuestionCasualUserText { get; set; }
+        public ChatbotAnswerCasualUser ChatbotAnswerCasualUser { get; set; }
 
-        // Foreign Key to Admin (Optional)
-        public int? AdminID { get; set; }
-
-        // Navigation Property (Should be nullable)
-        public Admin? Admin { get; set; }
-
-        // Foreign Key to CasualUser (Required)
-        public int CasualUserID { get; set; }
-
-        // Navigation Property for CasualUser
-        public CasualUser CasualUser { get; set; }
     }
 }

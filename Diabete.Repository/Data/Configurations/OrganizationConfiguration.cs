@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Diabetes.Core.Entities;
 
-namespace Diabetes.Infrastructure.Configurations
+namespace Diabetes.Data.Configurations
 {
     public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
     {
@@ -10,31 +10,30 @@ namespace Diabetes.Infrastructure.Configurations
         {
             builder.ToTable("Organizations");
 
-            builder.HasKey(o => o.ID);
+            
 
-            builder.Property(o => o.Name)
-                .HasMaxLength(200)
-                .IsRequired();
+            builder.Property(o => o.Name).HasMaxLength(200).IsRequired();
+            builder.Property(o => o.Email).HasMaxLength(250).IsRequired();
+            builder.Property(o => o.PasswordHash).HasMaxLength(500).IsRequired();
+            builder.Property(o => o.IsMedicalSyndicate).IsRequired();
 
-            builder.Property(o => o.Email)
-                .HasMaxLength(250)
-                .IsRequired();
-
-            builder.Property(o => o.PasswordHash)
-                .HasMaxLength(500)
-                .IsRequired();
-
-            // علاقة One-to-Many مع Admin
+            // علاقة Many-to-One مع Admin
             builder.HasOne(o => o.Admin)
                 .WithMany(a => a.Organizations)
                 .HasForeignKey(o => o.AdminID)
-                .OnDelete(DeleteBehavior.Restrict);
+                  .OnDelete(DeleteBehavior.Restrict);
 
-            // علاقة One-to-Many مع NewsFeedPost
-            builder.HasMany(o => o.NewsFeedPosts)
-                .WithOne(nfp => nfp.Organization)
-                .HasForeignKey(nfp => nfp.OrganizationID)
-                .OnDelete(DeleteBehavior.Restrict);
+            // علاقة One-to-Many مع Post
+            builder.HasMany(o => o.Posts)
+                .WithOne(p => p.Organization)
+                .HasForeignKey(p => p.OrganizationID)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            // علاقة One-to-Many مع DoctorApproval
+            builder.HasMany(o => o.DoctorApprovals)
+                .WithOne(da => da.Organization)
+                .HasForeignKey(da => da.OrganizationID)
+                  .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

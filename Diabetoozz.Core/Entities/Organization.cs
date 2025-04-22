@@ -8,17 +8,17 @@ namespace Diabetes.Core.Entities
 {
     public class Organization : BaseEntity
     {
-       
         public string Name { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+        public bool IsMedicalSyndicate { get; set; }
 
-        // Navigation Property
+        // Navigation properties
         public int AdminID { get; set; }
-        public Admin Admin { get; set; } 
-        // relation many
-        public virtual ICollection<NewsFeedPost> NewsFeedPosts { get; set; } = new List<NewsFeedPost>();
+        public Admin Admin { get; set; }
 
-
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<DoctorApproval> DoctorApprovals { get; set; }
     }
+    
 }

@@ -1,0 +1,37 @@
+[
+    {
+      "Name": "Medical Syndicate",
+      "Email": "info@medicalsyn.org",
+      "PasswordHash": "hashedpassword1",
+      "IsMedicalSyndicate": true,
+      "AdminID": 1
+    },
+    {
+      "Name": "National Institute of Diabetes and Endocrinology",
+      "Email": "contact@nide.gov",
+      "PasswordHash": "hashedpassword2",
+      "IsMedicalSyndicate": false,
+      "AdminID": 2
+    },
+    {
+      "Name": "Ministry of Health",
+      "Email": "mohealth@gov.org",
+      "PasswordHash": "hashedpassword3",
+      "IsMedicalSyndicate": false,
+      "AdminID": 3
+    },
+    {
+      "Name": "World Health Organization",
+      "Email": "info@who.int",
+      "PasswordHash": "hashedpassword4",
+      "IsMedicalSyndicate": false,
+      "AdminID": 4
+    },
+    {
+      "Name": "General Authority for Health Insurance",
+      "Email": "support@healthins.gov",
+      "PasswordHash": "hashedpassword5",
+      "IsMedicalSyndicate": false,
+      "AdminID": 5
+    }
+  ]

@@ -13,17 +13,19 @@ namespace Diabetes.Core.Entities
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
+        public string PhoneNumber { get; set; }
         public string LicenseCode { get; set; }
-        public string Phone { get; set; }
         public string PasswordHash { get; set; }
 
+        public DateTime CreatedAt { get; set; } 
+
         // Foreign Key
+
         public int AdminID { get; set; }
-        public int DoctorID { get; set; }// Foreign Key
 
         // Navigation Property
         public Admin Admin { get; set; } // العلاقة مع Admin
-        public Doctor Doctor { get; set; }
+        
         //Relation many
         public virtual ICollection<Patient> Patients { get; set; } = new List<Patient>();
     }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Diabetes.Core.Entities;
 
-namespace Diabetes.Infrastructure.Configurations
+namespace Diabetes.Data.Configurations
 {
     public class PatientConfiguration : IEntityTypeConfiguration<Patient>
     {
@@ -10,32 +10,36 @@ namespace Diabetes.Infrastructure.Configurations
         {
             builder.ToTable("Patients");
 
-            builder.HasKey(p => p.ID);
+            
 
             builder.Property(p => p.Name).HasMaxLength(200).IsRequired();
             builder.Property(p => p.Gender).HasMaxLength(10).IsRequired();
-            builder.Property(p => p.PhoneNumber).HasMaxLength(20);
-            builder.Property(p => p.CreatedAt).HasDefaultValueSql("GETDATE()").IsRequired();
+            builder.Property(p => p.BirthDate).IsRequired();
+            builder.Property(p => p.PhoneNumber).HasMaxLength(20).IsRequired();
 
+            // علاقة Many-to-One مع Clerk
             builder.HasOne(p => p.Clerk)
-                .WithMany(c=>c.Patients)
+                .WithMany(c => c.Patients)
                 .HasForeignKey(p => p.ClerkID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Doctor)
-                .WithMany(d => d.Patients)
-                .HasForeignKey(p => p.DoctorID)
+            // علاقة Many-to-One مع Admin
+            builder.HasOne(p => p.Admin)
+                .WithMany(a => a.Patients)
+                .HasForeignKey(p => p.AdminID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Diagnosis)
-                .WithOne(d => d.Patient)
-                .HasForeignKey<Diagnosis>(d => d.PatientID)
-                .OnDelete(DeleteBehavior.Restrict);
+            // علاقة One-to-Many مع MedicalHistory
+            builder.HasMany(p => p.MedicalHistories)
+                .WithOne(mh => mh.Patient)
+                .HasForeignKey(mh => mh.PatientID);
 
-            builder.HasOne(p => p.SuggestionFood)
+            // علاقة One-to-Many مع SuggestedFood
+            builder.HasMany(p => p.SuggestedFoods)
                 .WithOne(sf => sf.Patient)
-                .HasForeignKey<SuggestionFood>(sf => sf.PatientID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(sf => sf.PatientID);
+
+
         }
     }
 }

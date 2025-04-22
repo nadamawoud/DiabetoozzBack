@@ -1,19 +1,28 @@
-﻿using Diabetes.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+using Diabetes.Core.Entities;
 
-internal class ChatbotQuestionDoctorConfiguration : IEntityTypeConfiguration<ChatbotQuestionDoctor>
+namespace Diabetes.Data.Configurations
 {
-    public void Configure(EntityTypeBuilder<ChatbotQuestionDoctor> builder)
+    public class ChatbotQuestionDoctorConfiguration : IEntityTypeConfiguration<ChatbotQuestionDoctor>
     {
-        builder.HasOne(p => p.Doctor)
-            .WithMany(d => d.ChatbotQuestionDoctors)
-            .HasForeignKey(p => p.DoctorID)
-            .OnDelete(DeleteBehavior.Restrict); // منع الحذف التلقائي لتجنب التعارض
+        public void Configure(EntityTypeBuilder<ChatbotQuestionDoctor> builder)
+        {
+            builder.ToTable("ChatbotQuestionDoctors");
 
-        builder.HasOne(p => p.Admin)
-            .WithMany(a => a.ChatbotQuestionDoctors)
-            .HasForeignKey(p => p.AdminID)
-            .OnDelete(DeleteBehavior.Restrict); // منع الحذف التلقائي
+            
+
+            builder.Property(cqd => cqd.QuestionText).IsRequired();
+
+            // علاقة Many-to-One مع Admin
+            builder.HasOne(cqd => cqd.Admin)
+                .WithMany(a => a.ChatbotQuestionDoctors)
+                .HasForeignKey(cqd => cqd.AdminID);
+
+            // علاقة One-to-One مع ChatbotAnswerDoctor
+            builder.HasOne(cqd => cqd.ChatbotAnswerDoctor)
+                .WithOne(cad => cad.ChatbotQuestionDoctor)
+                .HasForeignKey<ChatbotAnswerDoctor>(cad => cad.ChatbotQuestionDoctorID);
+        }
     }
 }

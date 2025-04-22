@@ -1,0 +1,247 @@
+[
+    {
+        "DoctorSpecialization": "Endocrinology",
+        "Name": "Ahmed Nabil",
+        "BirthDate": "1980-04-15",
+        "Gender": "Male",
+        "PhoneNumber": "01120000001",
+        "MedicalSyndicateCardNumber": "1234567890",
+        "Email": "ahmed.nabil@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-10T10:00:00",
+        "AdminID": 1
+      },
+      {
+        "DoctorSpecialization": "Diabetology",
+        "Name": "Mona Adel",
+        "BirthDate": "1985-07-22",
+        "Gender": "Female",
+        "PhoneNumber": "01120000002",
+        "MedicalSyndicateCardNumber": "2345678901",
+        "Email": "mona.adel@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-11T10:00:00",
+        "AdminID": 2
+      },
+      {
+        "DoctorSpecialization": "Internal Medicine",
+        "Name": "Yasser Fathy",
+        "BirthDate": "1975-03-30",
+        "Gender": "Male",
+        "PhoneNumber": "01120000003",
+        "MedicalSyndicateCardNumber": "3456789012",
+        "Email": "yasser.fathy@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-12T10:00:00",
+        "AdminID": 3
+      },
+      {
+        "DoctorSpecialization": "Family Medicine",
+        "Name": "Nour Hassan",
+        "BirthDate": "1990-11-18",
+        "Gender": "Female",
+        "PhoneNumber": "01120000004",
+        "MedicalSyndicateCardNumber": "4567890123",
+        "Email": "nour.hassan@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-13T10:00:00",
+        "AdminID": 4
+      },
+      {
+        "DoctorSpecialization": "Endocrinology",
+        "Name": "Omar Hisham",
+        "BirthDate": "1983-08-05",
+        "Gender": "Male",
+        "PhoneNumber": "01120000005",
+        "MedicalSyndicateCardNumber": "5678901234",
+        "Email": "omar.hisham@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-14T10:00:00",
+        "AdminID": 5
+      },
+      {
+        "DoctorSpecialization": "Diabetology",
+        "Name": "Salma Tarek",
+        "BirthDate": "1988-06-27",
+        "Gender": "Female",
+        "PhoneNumber": "01120000006",
+        "MedicalSyndicateCardNumber": "6789012345",
+        "Email": "salma.tarek@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-15T10:00:00",
+        "AdminID": 6
+      },
+      {
+        "DoctorSpecialization": "Internal Medicine",
+        "Name": "Hossam Yehia",
+        "BirthDate": "1978-09-10",
+        "Gender": "Male",
+        "PhoneNumber": "01120000007",
+        "MedicalSyndicateCardNumber": "7890123456",
+        "Email": "hossam.yehia@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-16T10:00:00",
+        "AdminID": 7
+      },
+      {
+        "DoctorSpecialization": "Family Medicine",
+        "Name": "Farah Lotfy",
+        "BirthDate": "1992-10-01",
+        "Gender": "Female",
+        "PhoneNumber": "01120000008",
+        "MedicalSyndicateCardNumber": "8901234567",
+        "Email": "farah.lotfy@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-17T10:00:00",
+        "AdminID": 8
+      },
+      {
+        "DoctorSpecialization": "Endocrinology",
+        "Name": "Mohamed Zaki",
+        "BirthDate": "1981-02-03",
+        "Gender": "Male",
+        "PhoneNumber": "01120000009",
+        "MedicalSyndicateCardNumber": "9012345678",
+        "Email": "mohamed.zaki@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-18T10:00:00",
+        "AdminID": 9
+      },
+      {
+        "DoctorSpecialization": "Diabetology",
+        "Name": "Laila Sherif",
+        "BirthDate": "1986-12-19",
+        "Gender": "Female",
+        "PhoneNumber": "01120000010",
+        "MedicalSyndicateCardNumber": "0123456789",
+        "Email": "laila.sherif@example.com",
+        "PasswordHash": "hashed-password",
+        "CreatedAt": "2024-01-19T10:00:00",
+        "AdminID": 10
+      },
+      
+      {
+          "DoctorSpecialization": "Internal Medicine",
+          "Name": "Khaled Saeed",
+          "BirthDate": "1979-05-14",
+          "Gender": "Male",
+          "PhoneNumber": "01120000011",
+          "MedicalSyndicateCardNumber": "1111111111",
+          "Email": "khaled.saeed@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-01T10:00:00",
+          "AdminID": 1
+        },
+        {
+          "DoctorSpecialization": "Endocrinology",
+          "Name": "Nadine Omar",
+          "BirthDate": "1987-03-21",
+          "Gender": "Female",
+          "PhoneNumber": "01120000012",
+          "MedicalSyndicateCardNumber": "2222222222",
+          "Email": "nadine.omar@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-02T10:00:00",
+          "AdminID": 2
+        },
+        {
+          "DoctorSpecialization": "Family Medicine",
+          "Name": "Tamer Adel",
+          "BirthDate": "1982-06-09",
+          "Gender": "Male",
+          "PhoneNumber": "01120000013",
+          "MedicalSyndicateCardNumber": "3333333333",
+          "Email": "tamer.adel@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-03T10:00:00",
+          "AdminID": 3
+        },
+        {
+          "DoctorSpecialization": "Diabetology",
+          "Name": "Aya Youssef",
+          "BirthDate": "1991-01-27",
+          "Gender": "Female",
+          "PhoneNumber": "01120000014",
+          "MedicalSyndicateCardNumber": "4444444444",
+          "Email": "aya.youssef@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-04T10:00:00",
+          "AdminID": 4
+        },
+        {
+          "DoctorSpecialization": "Internal Medicine",
+          "Name": "Mahmoud Fadel",
+          "BirthDate": "1977-07-19",
+          "Gender": "Male",
+          "PhoneNumber": "01120000015",
+          "MedicalSyndicateCardNumber": "5555555555",
+          "Email": "mahmoud.fadel@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-05T10:00:00",
+          "AdminID": 5
+        },
+        {
+          "DoctorSpecialization": "Endocrinology",
+          "Name": "Sara Ayman",
+          "BirthDate": "1984-10-10",
+          "Gender": "Female",
+          "PhoneNumber": "01120000016",
+          "MedicalSyndicateCardNumber": "6666666666",
+          "Email": "sara.ayman@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-06T10:00:00",
+          "AdminID": 6
+        },
+        {
+          "DoctorSpecialization": "Diabetology",
+          "Name": "Karim Lotfy",
+          "BirthDate": "1989-12-25",
+          "Gender": "Male",
+          "PhoneNumber": "01120000017",
+          "MedicalSyndicateCardNumber": "7777777777",
+          "Email": "karim.lotfy@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-07T10:00:00",
+          "AdminID": 7
+        },
+        {
+          "DoctorSpecialization": "Family Medicine",
+          "Name": "Hana Elmasry",
+          "BirthDate": "1993-11-30",
+          "Gender": "Female",
+          "PhoneNumber": "01120000018",
+          "MedicalSyndicateCardNumber": "8888888888",
+          "Email": "hana.elmasry@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-08T10:00:00",
+          "AdminID": 8
+        },
+        {
+          "DoctorSpecialization": "Endocrinology",
+          "Name": "Walid Saber",
+          "BirthDate": "1976-04-11",
+          "Gender": "Male",
+          "PhoneNumber": "01120000019",
+          "MedicalSyndicateCardNumber": "9999999999",
+          "Email": "walid.saber@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-09T10:00:00",
+          "AdminID": 9
+        },
+        {
+          "DoctorSpecialization": "Internal Medicine",
+          "Name": "Dina Ashraf",
+          "BirthDate": "1986-08-08",
+          "Gender": "Female",
+          "PhoneNumber": "01120000020",
+          "MedicalSyndicateCardNumber": "1010101010",
+          "Email": "dina.ashraf@example.com",
+          "PasswordHash": "hashed-password",
+          "CreatedAt": "2024-02-10T10:00:00",
+          "AdminID": 10
+        }
+]
+
+      
+    
+  

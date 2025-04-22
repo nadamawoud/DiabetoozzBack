@@ -1,92 +1,50 @@
-﻿using Diabetes.Core.Repositories;
-using Diabetes.Repository;
+﻿using Diabetes.Core.Entities;
 using Diabetes.Repository.Data;
-using Diabetes.Services;
-using Diabetes.Services.Login;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Diabetes.APIs
-{
-    public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+// إضافة الخدمات إلى الحاوية
+builder.Services.AddControllers();
+
+// تكوين Entity Framework Core
+builder.Services.AddDbContext<StoreContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// تكوين JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        public static async Task Main(string[] args)
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            var builder = WebApplication.CreateBuilder(args);
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
-            #region Configure Services
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<StoreContext>(Options =>
-            {
-                Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
+var app = builder.Build();
 
-            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-            builder.Services.AddScoped<IJsonSerializerService, JsonSerializerService>();
-            
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-                        ValidAudience = builder.Configuration["JwtSettings:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
-                    };
-                });
-            #endregion
+// تكوين خط أنابيب HTTP
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 
-            var app = builder.Build();
-
-            #region Update-Database
-            using var scope = app.Services.CreateScope();
-            var services = scope.ServiceProvider;
-            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-
-            try
-            {
-                var DbContext = services.GetRequiredService<StoreContext>();
-
-                // تأكد من تطبيق الترحيل أولاً
-                await DbContext.Database.MigrateAsync();
-
-                // بعد الترحيل، قم بملء البيانات أو تحديثها تلقائيًا
-                await StoreContextSeed.SeedAsnc(DbContext); // تأكد من تحميل البيانات من JSON
-
-                // إذا كنت تريد حفظ التعديلات التلقائية بعد إضافة البيانات
-                await DbContext.SaveChangesAsync();  // هذه الخطوة تحفظ التعديلات في قاعدة البيانات
-            }
-            catch (Exception ex)
-            {
-                var logger = loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "An error occurred during migration or seeding");
-            }
-            #endregion
-
-            #region Configure the HTTP request pipeline
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseAuthentication();  // تمكين المصادقة باستخدام JWT
-            app.UseAuthorization();
-            app.MapControllers();
-            #endregion
-
-            app.Run();
-        }
-    }
+// تطبيق Migrations
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<StoreContext>();
+    context.Database.Migrate();
 }
+
+app.Run();

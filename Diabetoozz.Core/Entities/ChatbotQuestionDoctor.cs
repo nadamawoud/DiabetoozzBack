@@ -4,15 +4,13 @@ namespace Diabetes.Core.Entities
 {
     public class ChatbotQuestionDoctor : BaseEntity
     {
-        
-        public string ChatbotQuestionDoctorText { get; set; }
+        public string QuestionText { get; set; }
 
-        // Foreign Keys
-        public int DoctorID { get; set; }
+        // Navigation properties
         public int AdminID { get; set; }
+        public Admin Admin { get; set; }
 
-        // Navigation Properties
-        public virtual Doctor Doctor { get; set; }
-        public virtual Admin Admin { get; set; }
+        
+        public ChatbotAnswerDoctor ChatbotAnswerDoctor { get; set; } // One-to-One
     }
 }

@@ -1,24 +1,28 @@
-﻿using Diabetes.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+using Diabetes.Core.Entities;
 
-namespace Diabete.Repository.Data.Configurations
+namespace Diabetes.Data.Configurations
 {
-    internal class ChatbotQuestionCasualUserConfiguration : IEntityTypeConfiguration<ChatbotQuestionCasualUser>
+    public class ChatbotQuestionCasualUserConfiguration : IEntityTypeConfiguration<ChatbotQuestionCasualUser>
     {
         public void Configure(EntityTypeBuilder<ChatbotQuestionCasualUser> builder)
         {
-            // تكوين العلاقة مع CasualUser باستخدام CasualUserID فقط
-            builder.HasOne(qcu => qcu.CasualUser)
-                   .WithMany(c => c.ChatbotQuestionCasualUsers)
-                   .HasForeignKey(qcu => qcu.CasualUserID)
-                   .IsRequired(); // التأكد من أن CasualUserID مطلوب
+            builder.ToTable("ChatbotQuestionCasualUsers");
 
-            // تكوين العلاقة مع Admin (اختيارية)
-            builder.HasOne(qcu => qcu.Admin)
-                   .WithMany(a => a.ChatbotQuestionCasualUsers)
-                   .HasForeignKey(qcu => qcu.AdminID)
-                   .IsRequired(false); // السماح بأن يكون AdminID فارغًا
+            
+
+            builder.Property(cqcu => cqcu.QuestionText).IsRequired();
+
+            // علاقة Many-to-One مع Admin
+            builder.HasOne(cqcu => cqcu.Admin)
+                .WithMany(a => a.ChatbotQuestionCasualUsers)
+                .HasForeignKey(cqcu => cqcu.AdminID);
+
+            // علاقة One-to-One مع ChatbotAnswerCasualUser
+            builder.HasOne(cqcu => cqcu.ChatbotAnswerCasualUser)
+                .WithOne(cacu => cacu.ChatbotQuestionCasualUser)
+                .HasForeignKey<ChatbotAnswerCasualUser>(cacu => cacu.ChatbotQuestionCasualUserID);
         }
     }
 }

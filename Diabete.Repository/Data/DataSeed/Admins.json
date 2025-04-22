@@ -1,0 +1,302 @@
+[
+    {
+      "Email": "ahmed.salem1@example.com",
+      "PasswordHash": "hashedPassword1",
+      "CreatedAt": "2024-02-01T10:00:00",
+      "ManagerID": 1
+    },
+    {
+      "Email": "mona.hassan2@example.com",
+      "PasswordHash": "hashedPassword2",
+      "CreatedAt": "2024-02-02T11:00:00",
+      "ManagerID": 3
+    },
+    {
+      "Email": "omar.nabil3@example.com",
+      "PasswordHash": "hashedPassword3",
+      "CreatedAt": "2024-02-03T12:00:00",
+      "ManagerID": 5
+    },
+    {
+      "Email": "sara.fathy4@example.com",
+      "PasswordHash": "hashedPassword4",
+      "CreatedAt": "2024-02-04T13:00:00",
+      "ManagerID": 2
+    },
+    {
+      "Email": "youssef.ali5@example.com",
+      "PasswordHash": "hashedPassword5",
+      "CreatedAt": "2024-02-05T14:00:00",
+      "ManagerID": 7
+    },
+    {
+      "Email": "fatma.kamel6@example.com",
+      "PasswordHash": "hashedPassword6",
+      "CreatedAt": "2024-02-06T15:00:00",
+      "ManagerID": 4
+    },
+    {
+      "Email": "hassan.amin7@example.com",
+      "PasswordHash": "hashedPassword7",
+      "CreatedAt": "2024-02-07T16:00:00",
+      "ManagerID": 1
+    },
+    {
+      "Email": "nourhan.samir8@example.com",
+      "PasswordHash": "hashedPassword8",
+      "CreatedAt": "2024-02-08T17:00:00",
+      "ManagerID": 6
+    },
+    {
+      "Email": "khaled.helmy9@example.com",
+      "PasswordHash": "hashedPassword9",
+      "CreatedAt": "2024-02-09T18:00:00",
+      "ManagerID": 9
+    },
+    {
+      "Email": "salma.ghali10@example.com",
+      "PasswordHash": "hashedPassword10",
+      "CreatedAt": "2024-02-10T19:00:00",
+      "ManagerID": 2
+    },
+    {
+      "Email": "mohamed.zaki11@example.com",
+      "PasswordHash": "hashedPassword11",
+      "CreatedAt": "2024-02-11T08:00:00",
+      "ManagerID": 3
+    },
+    {
+      "Email": "dina.saeed12@example.com",
+      "PasswordHash": "hashedPassword12",
+      "CreatedAt": "2024-02-12T08:00:00",
+      "ManagerID": 7
+    },
+    {
+      "Email": "tamer.farid13@example.com",
+      "PasswordHash": "hashedPassword13",
+      "CreatedAt": "2024-02-13T08:00:00",
+      "ManagerID": 5
+    },
+    {
+      "Email": "eman.rashad14@example.com",
+      "PasswordHash": "hashedPassword14",
+      "CreatedAt": "2024-02-14T08:00:00",
+      "ManagerID": 6
+    },
+    {
+      "Email": "ali.kassem15@example.com",
+      "PasswordHash": "hashedPassword15",
+      "CreatedAt": "2024-02-15T08:00:00",
+      "ManagerID": 2
+    },
+    {
+      "Email": "rana.ahmed16@example.com",
+      "PasswordHash": "hashedPassword16",
+      "CreatedAt": "2024-02-16T08:00:00",
+      "ManagerID": 4
+    },
+    {
+      "Email": "ibrahim.saber17@example.com",
+      "PasswordHash": "hashedPassword17",
+      "CreatedAt": "2024-02-17T08:00:00",
+      "ManagerID": 8
+    },
+    {
+      "Email": "mai.adel18@example.com",
+      "PasswordHash": "hashedPassword18",
+      "CreatedAt": "2024-02-18T08:00:00",
+      "ManagerID": 6
+    },
+    {
+      "Email": "hesham.gaber19@example.com",
+      "PasswordHash": "hashedPassword19",
+      "CreatedAt": "2024-02-19T08:00:00",
+      "ManagerID": 1
+    },
+    {
+      "Email": "laila.hassan20@example.com",
+      "PasswordHash": "hashedPassword20",
+      "CreatedAt": "2024-02-20T08:00:00",
+      "ManagerID": 7
+    },
+    {
+      "Email": "shady.anas21@example.com",
+      "PasswordHash": "hashedPassword21",
+      "CreatedAt": "2024-02-21T08:00:00",
+      "ManagerID": 9
+    },
+    {
+      "Email": "yara.mostafa22@example.com",
+      "PasswordHash": "hashedPassword22",
+      "CreatedAt": "2024-02-22T08:00:00",
+      "ManagerID": 3
+    },
+    {
+      "Email": "adel.hani23@example.com",
+      "PasswordHash": "hashedPassword23",
+      "CreatedAt": "2024-02-23T08:00:00",
+      "ManagerID": 8
+    },
+    {
+      "Email": "shereen.naglaa24@example.com",
+      "PasswordHash": "hashedPassword24",
+      "CreatedAt": "2024-02-24T08:00:00",
+      "ManagerID": 10
+    },
+    {
+      "Email": "ramy.kareem25@example.com",
+      "PasswordHash": "hashedPassword25",
+      "CreatedAt": "2024-02-25T08:00:00",
+      "ManagerID": 4
+    },
+    {
+      "Email": "nadia.hamed26@example.com",
+      "PasswordHash": "hashedPassword26",
+      "CreatedAt": "2024-02-26T08:00:00",
+      "ManagerID": 2
+    },
+    {
+      "Email": "maged.ramy27@example.com",
+      "PasswordHash": "hashedPassword27",
+      "CreatedAt": "2024-02-27T08:00:00",
+      "ManagerID": 6
+    },
+    {
+      "Email": "aya.khaled28@example.com",
+      "PasswordHash": "hashedPassword28",
+      "CreatedAt": "2024-02-28T08:00:00",
+      "ManagerID": 5
+    },
+    {
+      "Email": "nabil.abdelrahman29@example.com",
+      "PasswordHash": "hashedPassword29",
+      "CreatedAt": "2024-03-01T08:00:00",
+      "ManagerID": 1
+    },
+    {
+      "Email": "rasha.ali30@example.com",
+      "PasswordHash": "hashedPassword30",
+      "CreatedAt": "2024-03-02T08:00:00",
+      "ManagerID": 3
+    },
+    {
+      "Email": "fady.youssef31@example.com",
+      "PasswordHash": "hashedPassword31",
+      "CreatedAt": "2024-03-03T08:00:00",
+      "ManagerID": 8
+    },
+    {
+      "Email": "asmaa.sobhy32@example.com",
+      "PasswordHash": "hashedPassword32",
+      "CreatedAt": "2024-03-04T08:00:00",
+      "ManagerID": 7
+    },
+    {
+      "Email": "mostafa.elhady33@example.com",
+      "PasswordHash": "hashedPassword33",
+      "CreatedAt": "2024-03-05T08:00:00",
+      "ManagerID": 4
+    },
+    {
+      "Email": "nadine.essam34@example.com",
+      "PasswordHash": "hashedPassword34",
+      "CreatedAt": "2024-03-06T08:00:00",
+      "ManagerID": 2
+    },
+    {
+      "Email": "hady.ismail35@example.com",
+      "PasswordHash": "hashedPassword35",
+      "CreatedAt": "2024-03-07T08:00:00",
+      "ManagerID": 1
+    },
+    {
+      "Email": "marwa.younes36@example.com",
+      "PasswordHash": "hashedPassword36",
+      "CreatedAt": "2024-03-08T08:00:00",
+      "ManagerID": 3
+    },
+    {
+      "Email": "tarek.bahaa37@example.com",
+      "PasswordHash": "hashedPassword37",
+      "CreatedAt": "2024-03-09T08:00:00",
+      "ManagerID": 10
+    },
+    {
+      "Email": "salma.ragab38@example.com",
+      "PasswordHash": "hashedPassword38",
+      "CreatedAt": "2024-03-10T08:00:00",
+      "ManagerID": 5
+    },
+    {
+      "Email": "yassin.magdy39@example.com",
+      "PasswordHash": "hashedPassword39",
+      "CreatedAt": "2024-03-11T08:00:00",
+      "ManagerID": 6
+    },
+    {
+      "Email": "farah.alaa40@example.com",
+      "PasswordHash": "hashedPassword40",
+      "CreatedAt": "2024-03-12T08:00:00",
+      "ManagerID": 8
+    },
+    {
+      "Email": "kareem.tarek41@example.com",
+      "PasswordHash": "hashedPassword41",
+      "CreatedAt": "2024-03-13T08:00:00",
+      "ManagerID": 9
+    },
+    {
+      "Email": "hana.mohsen42@example.com",
+      "PasswordHash": "hashedPassword42",
+      "CreatedAt": "2024-03-14T08:00:00",
+      "ManagerID": 7
+    },
+    {
+      "Email": "zain.abdelaziz43@example.com",
+      "PasswordHash": "hashedPassword43",
+      "CreatedAt": "2024-03-15T08:00:00",
+      "ManagerID": 10
+    },
+    {
+      "Email": "dalia.tamer44@example.com",
+      "PasswordHash": "hashedPassword44",
+      "CreatedAt": "2024-03-16T08:00:00",
+      "ManagerID": 4
+    },
+    {
+      "Email": "basel.ahmad45@example.com",
+      "PasswordHash": "hashedPassword45",
+      "CreatedAt": "2024-03-17T08:00:00",
+      "ManagerID": 6
+    },
+    {
+      "Email": "sandy.hassan46@example.com",
+      "PasswordHash": "hashedPassword46",
+      "CreatedAt": "2024-03-18T08:00:00",
+      "ManagerID": 5
+    },
+    {
+      "Email": "ismail.maher47@example.com",
+      "PasswordHash": "hashedPassword47",
+      "CreatedAt": "2024-03-19T08:00:00",
+      "ManagerID": 3
+    },
+    {
+      "Email": "ghada.fouad48@example.com",
+      "PasswordHash": "hashedPassword48",
+      "CreatedAt": "2024-03-20T08:00:00",
+      "ManagerID": 2
+    },
+    {
+      "Email": "hany.samir49@example.com",
+      "PasswordHash": "hashedPassword49",
+      "CreatedAt": "2024-03-21T08:00:00",
+      "ManagerID": 1
+    },
+    {
+      "Email": "aya.hussein50@example.com",
+      "PasswordHash": "hashedPassword50",
+      "CreatedAt": "2024-03-22T08:00:00",
+      "ManagerID": 7
+    }
+  ]

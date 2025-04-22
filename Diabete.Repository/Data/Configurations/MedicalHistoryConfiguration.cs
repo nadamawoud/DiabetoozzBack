@@ -2,49 +2,32 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Diabetes.Core.Entities;
 
-namespace Diabetes.Infrastructure.Configurations
+namespace Diabetes.Data.Configurations
 {
     public class MedicalHistoryConfiguration : IEntityTypeConfiguration<MedicalHistory>
     {
         public void Configure(EntityTypeBuilder<MedicalHistory> builder)
         {
-            // تحديد اسم الجدول
             builder.ToTable("MedicalHistories");
 
-            // تعيين المفتاح الأساسي
-            builder.HasKey(mh => mh.ID);
+           
 
-            // ضبط الخصائص
-            builder.Property(mh => mh.Diagnosis)
-                .HasMaxLength(500)
-                .IsRequired();
+            builder.Property(mh => mh.DiagnosisDate).IsRequired();
 
-            builder.Property(mh => mh.ChatbotData)
-                .HasMaxLength(2000);
+            // علاقة Many-to-One مع DiagnosisType
+            builder.HasOne(mh => mh.DiagnosisType)
+                .WithMany(dt => dt.MedicalHistories)
+                .HasForeignKey(mh => mh.DiagnosisTypeID);
 
-            builder.Property(mh => mh.DiagnosisDate)
-                .IsRequired();
+            // علاقة Many-to-One مع Patient
+            builder.HasOne(mh => mh.Patient)
+                .WithMany(p => p.MedicalHistories)
+                .HasForeignKey(mh => mh.PatientID);
 
-            // العلاقة مع Admin (Many-to-One)
-            builder.HasOne(mh => mh.Admin)
-                .WithMany(a=>a.MedicalHistories) // إذا كان هناك Navigation Property في Admin تشير إلى MedicalHistory، استخدم WithMany(a => a.MedicalHistories)
-                .HasForeignKey(mh => mh.AdminID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
-            // العلاقة مع Doctor (Many-to-One)
+            // علاقة Many-to-One مع Doctor
             builder.HasOne(mh => mh.Doctor)
                 .WithMany(d => d.MedicalHistories)
-                .HasForeignKey(mh => mh.DoctorID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
-            // العلاقة مع Manager (Many-to-One)
-            builder.HasOne(mh => mh.Manager)
-                .WithMany(m => m.MedicalHistories)
-                .HasForeignKey(mh => mh.ManagerID)
-                .OnDelete(DeleteBehavior.Restrict);
-
+                .HasForeignKey(mh => mh.DoctorID);
         }
     }
 }

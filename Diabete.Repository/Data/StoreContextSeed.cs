@@ -19,10 +19,11 @@ namespace Diabetes.Repository.Data
                 PropertyNameCaseInsensitive = true
             };
 
+
             if (!DbContext.Admins.Any())
             {
                 // Seeding Admins
-                var AdminsData = File.ReadAllText("../Diabete.Repository/Data/DataSeeding/Admins.json");
+                var AdminsData = File.ReadAllText("../Diabete.Repository/Data/DataSeed/Admins.json");
                 var Admins = JsonSerializer.Deserialize<List<Admin>>(AdminsData);
 
                 if (Admins?.Count > 0)
@@ -34,10 +35,24 @@ namespace Diabetes.Repository.Data
                     await DbContext.SaveChangesAsync();
                 }
             }
+            if (!DbContext.Managers.Any())
+            {
+                // Seeding Managers
+                var ManagersData = File.ReadAllText("../Diabete.Repository/Data/DataSeed/Managers.json");
+                var Managers = JsonSerializer.Deserialize<List<Manager>>(ManagersData);
+                if (Managers?.Count > 0)
+                {
+                    foreach (var Manager in Managers)
+                    {
+                        await DbContext.Set<Manager>().AddAsync(Manager);
+                    }
+                    await DbContext.SaveChangesAsync();
+                }
+            }
             if (!DbContext.Organizations.Any())
             {
                 //Seeding Organizations
-                var OrganizationsData = File.ReadAllText("../Diabete.Repository/Data/DataSeeding/Organizations.json");
+                var OrganizationsData = File.ReadAllText("../Diabete.Repository/Data/DataSeed/Organizations.json");
                 var Organizations = JsonSerializer.Deserialize<List<Organization>>(OrganizationsData);
                 if (Organizations?.Count > 0)
                 {
@@ -47,42 +62,12 @@ namespace Diabetes.Repository.Data
                     }
                     await DbContext.SaveChangesAsync();
 
-                }                
-            }
-            if (!DbContext.MedicalSyndicates.Any())
-            {
-                //Seeding MedicalSyndicate
-                var MedicalSyndicatesData = File.ReadAllText("../Diabete.Repository/Data/DataSeeding/MedicalSyndicates.json");
-                var MedicalSyndicates = JsonSerializer.Deserialize<List<MedicalSyndicate>>(MedicalSyndicatesData);
-                if (MedicalSyndicates?.Count > 0)
-                {
-                    foreach (var MedicalSyndicate in MedicalSyndicates)
-                    {
-                        await DbContext.Set<MedicalSyndicate>().AddAsync(MedicalSyndicate);
-                    }
-                    await DbContext.SaveChangesAsync();
                 }
-
-            }
-            if (!DbContext.NewsFeedPosts.Any())
-            {
-                //Seeding NewsFeedPosts
-                var NewsFeedPostsData = File.ReadAllText("../Diabete.Repository/Data/DataSeeding/NewsFeedPosts.json");
-                var NewsFeedPosts = JsonSerializer.Deserialize<List<NewsFeedPost>>(NewsFeedPostsData);
-                if (NewsFeedPosts?.Count > 0)
-                {
-                    foreach (var NewsFeedPost in NewsFeedPosts)
-                    {
-                        await DbContext.Set<NewsFeedPost>().AddAsync(NewsFeedPost);
-                    }
-                    await DbContext.SaveChangesAsync();
-                }
-
             }
             if (!DbContext.Doctors.Any())
             {
                 // Seeding Doctors
-                var DoctorsData = File.ReadAllText("../Diabete.Repository/Data/DataSeeding/Doctors.json");
+                var DoctorsData = File.ReadAllText("../Diabete.Repository/Data/DataSeed/Doctors.json");
                 var Doctors = JsonSerializer.Deserialize<List<Doctor>>(DoctorsData);
 
                 if (Doctors?.Count > 0)
@@ -97,7 +82,7 @@ namespace Diabetes.Repository.Data
             if (!DbContext.Clerks.Any())
             {
                 // Seeding Clerks
-                var ClerksData = File.ReadAllText("../Diabete.Repository/Data/DataSeeding/Clerks.json");
+                var ClerksData = File.ReadAllText("../Diabete.Repository/Data/DataSeed/Clerks.json");
                 var Clerks = JsonSerializer.Deserialize<List<Clerk>>(ClerksData);
 
                 if (Clerks?.Count > 0)
@@ -113,7 +98,7 @@ namespace Diabetes.Repository.Data
             if (!DbContext.Patients.Any())
             {
                 //Seeding Patients
-                var PatientsData = File.ReadAllText("../Diabete.Repository/Data/DataSeeding/Patient.json");
+                var PatientsData = File.ReadAllText("../Diabete.Repository/Data/DataSeed/Patients.json");
                 var Patients = JsonSerializer.Deserialize<List<Patient>>(PatientsData);
                 if (Patients?.Count > 0)
                 {
@@ -125,6 +110,21 @@ namespace Diabetes.Repository.Data
 
                 }
             }
+            if (!DbContext.ChatbotQuestionDoctors.Any())
+            {
+                //Seeding ChatbotQuestionDoctors
+                var ChatbotQuestionDoctorsData = File.ReadAllText("../Diabete.Repository/Data/DataSeed/ChatbotQuestionDoctors.json");
+                var ChatbotQuestionDoctors = JsonSerializer.Deserialize<List<ChatbotQuestionDoctor>>(ChatbotQuestionDoctorsData);
+                if (ChatbotQuestionDoctors?.Count > 0)
+                {
+                    foreach (var ChatbotQuestionDoctor in ChatbotQuestionDoctors)
+                    {
+                        await DbContext.Set<ChatbotQuestionDoctor>().AddAsync(ChatbotQuestionDoctor);
+                    }
+                    await DbContext.SaveChangesAsync();
+                }
+            }   
+
         }
     }
 }

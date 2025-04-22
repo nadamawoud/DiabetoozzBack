@@ -9,19 +9,18 @@ namespace Diabetes.Core.Entities
 {
     public class MedicalHistory : BaseEntity
     {
-        
-        public string Diagnosis { get; set; }
-        public string ChatbotData { get; set; }
-        public DateTime DiagnosisDate { get; set; }
-        //علاقه الادمن
-        public int AdminID { get; set; }
-        public Admin Admin { get; set; }
+        // Navigation properties
 
-        //علاقه الدكتور
-        public int DoctorID { get; set; } // Foreign Key to Doctor
-        public Doctor Doctor { get; set; }
-        //علاقه الmanger
-        public int ManagerID { get; set; }
-        public Manager Manager { get; set; }
+        
+        public DateTime DiagnosisDate { get; set; }
+        public int DiagnosisTypeID { get; set; }
+        public DiagnosisType DiagnosisType { get; set; }
+
+        public int PatientID { get; set; }                 
+         public Patient Patient { get; set; }
+
+         public int DoctorID { get; set; }
+         public Doctor Doctor { get; set; }
+        
     }
 }

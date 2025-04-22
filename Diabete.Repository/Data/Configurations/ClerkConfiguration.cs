@@ -1,39 +1,34 @@
-﻿using Diabetes.Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Diabetes.Core.Entities;
 
-namespace Diabete.Repository.Data.Configurations
+namespace Diabetes.Data.Configurations
 {
-    internal class ClerkConfiguration : IEntityTypeConfiguration<Clerk>
+    public class ClerkConfiguration : IEntityTypeConfiguration<Clerk>
     {
         public void Configure(EntityTypeBuilder<Clerk> builder)
-    {
+        {
+            builder.ToTable("Clerks");
 
+          
 
-        // علاقة One-to-One بين Doctor و Clerk
-        builder.HasOne(c => c.Doctor)
-               .WithMany(d => d.Clerks)
-               .HasForeignKey(c => c.DoctorID)
-               .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(c => c.Name).HasMaxLength(200).IsRequired();
+            builder.Property(c => c.Email).HasMaxLength(250).IsRequired();
+            builder.Property(c => c.BirthDate).IsRequired();
+            builder.Property(c => c.Gender).HasMaxLength(10).IsRequired();
+            builder.Property(c => c.LicenseCode).HasMaxLength(100).IsRequired();
+            builder.Property(c => c.PhoneNumber).HasMaxLength(20).IsRequired();
+            builder.Property(c => c.PasswordHash).HasMaxLength(500).IsRequired();
 
-
-            // علاقة One-to-Many بين Admin و Clerk
+            // علاقة Many-to-One مع Admin
             builder.HasOne(c => c.Admin)
-               .WithMany(a => a.Clerks)  // الإداري يملك عدة موظفين
-               .HasForeignKey(c => c.AdminID)
-               .OnDelete(DeleteBehavior.Restrict);
+                .WithMany(a => a.Clerks)
+                .HasForeignKey(c => c.AdminID);
 
-            // علاقة One-to-Many بين Clerk و Patient
+            // علاقة One-to-Many مع Patient
             builder.HasMany(c => c.Patients)
-               .WithOne(p => p.Clerk)  // الموظف يملك عدة مرضى
-               .HasForeignKey(p => p.ClerkID)
-               .OnDelete(DeleteBehavior.Restrict);
+                .WithOne(p => p.Clerk)
+                .HasForeignKey(p => p.ClerkID);
         }
     }
 }
-   
