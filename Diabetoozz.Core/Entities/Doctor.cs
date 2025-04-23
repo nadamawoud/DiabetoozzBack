@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace Diabetes.Core.Entities
 {
     public class Doctor : BaseEntity
-    {
-       
-        
+    {       
         public string DoctorSpecialization { get; set; }
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
@@ -19,7 +17,7 @@ namespace Diabetes.Core.Entities
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public DateTime? CreatedAt { get; set; }
-
+        public bool IsApproved { get; set; } = false;
         // Navigation properties
         public int AdminID { get; set; }
         public Admin Admin { get; set; }

@@ -1,0 +1,222 @@
+[
+  {
+    "Username": "aya123",
+    "Email": "aya123@example.com",
+    "Gender": "Female",
+    "BirthDate": "2000-01-01T00:00:00",
+    "PasswordHash": "14526378",
+    "PhoneNumber": "01081234567",
+    "CreatedAt": "2025-01-10T12:34:56",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "mohamed2020",
+    "Email": "mohamed2020@example.com",
+    "Gender": "Male",
+    "BirthDate": "1999-05-20T00:00:00",
+    "PasswordHash": "98345612",
+    "PhoneNumber": "01292345678",
+    "CreatedAt": "2025-02-05T10:20:30",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "hossam88",
+    "Email": "hossam88@example.com",
+    "Gender": "Male",
+    "BirthDate": "1990-08-08T00:00:00",
+    "PasswordHash": "71829463",
+    "PhoneNumber": "01173456789",
+    "CreatedAt": "2025-03-15T09:00:00",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "salma_01",
+    "Email": "salma_01@example.com",
+    "Gender": "Female",
+    "BirthDate": "2002-03-12T00:00:00",
+    "PasswordHash": "56783921",
+    "PhoneNumber": "01064567890",
+    "CreatedAt": "2025-01-25T14:00:00",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "khaledx",
+    "Email": "khaledx@example.com",
+    "Gender": "Male",
+    "BirthDate": "1995-11-11T00:00:00",
+    "PasswordHash": "30517894",
+    "PhoneNumber": "01275678901",
+    "CreatedAt": "2025-03-01T08:15:45",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "sherif777",
+    "Email": "sherif777@example.com",
+    "Gender": "Male",
+    "BirthDate": "1991-07-07T00:00:00",
+    "PasswordHash": "87654321",
+    "PhoneNumber": "01186789012",
+    "CreatedAt": "2025-02-12T18:25:00",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "laila_love",
+    "Email": "laila_love@example.com",
+    "Gender": "Female",
+    "BirthDate": "1996-04-15T00:00:00",
+    "PasswordHash": "43218765",
+    "PhoneNumber": "01097890123",
+    "CreatedAt": "2025-03-22T11:11:11",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "mostafa_dev",
+    "Email": "mostafa_dev@example.com",
+    "Gender": "Male",
+    "BirthDate": "1993-06-30T00:00:00",
+    "PasswordHash": "11223344",
+    "PhoneNumber": "01208901234",
+    "CreatedAt": "2025-01-18T07:45:00",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "dina_star",
+    "Email": "dina_star@example.com",
+    "Gender": "Female",
+    "BirthDate": "2001-02-14T00:00:00",
+    "PasswordHash": "55667788",
+    "PhoneNumber": "01119012345",
+    "CreatedAt": "2025-03-05T22:30:00",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "omar_g",
+    "Email": "omar_g@example.com",
+    "Gender": "Male",
+    "BirthDate": "1998-10-10T00:00:00",
+    "PasswordHash": "99887766",
+    "PhoneNumber": "01020123456",
+    "CreatedAt": "2025-02-28T13:13:13",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "farah_22",
+    "Email": "farah_22@example.com",
+    "Gender": "Female",
+    "BirthDate": "1997-12-12T00:00:00",
+    "PasswordHash": "22446688",
+    "PhoneNumber": "01034561234",
+    "CreatedAt": "2025-02-03T10:10:10",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "ahmed_nasr",
+    "Email": "ahmed_nasr@example.com",
+    "Gender": "Male",
+    "BirthDate": "1992-03-03T00:00:00",
+    "PasswordHash": "12349876",
+    "PhoneNumber": "01245672345",
+    "CreatedAt": "2025-03-19T09:30:00",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "noha_sky",
+    "Email": "noha_sky@example.com",
+    "Gender": "Female",
+    "BirthDate": "1994-09-09T00:00:00",
+    "PasswordHash": "10293847",
+    "PhoneNumber": "01156783456",
+    "CreatedAt": "2025-01-14T17:00:00",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "tarek_elmasry",
+    "Email": "tarek_elmasry@example.com",
+    "Gender": "Male",
+    "BirthDate": "1988-08-08T00:00:00",
+    "PasswordHash": "56473829",
+    "PhoneNumber": "01067894567",
+    "CreatedAt": "2025-02-22T08:08:08",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "manar_rose",
+    "Email": "manar_rose@example.com",
+    "Gender": "Female",
+    "BirthDate": "1996-06-16T00:00:00",
+    "PasswordHash": "91827364",
+    "PhoneNumber": "01278905678",
+    "CreatedAt": "2025-03-07T14:14:14",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "youssef_dev",
+    "Email": "youssef_dev@example.com",
+    "Gender": "Male",
+    "BirthDate": "1990-05-05T00:00:00",
+    "PasswordHash": "31415926",
+    "PhoneNumber": "01189016789",
+    "CreatedAt": "2025-01-30T15:15:15",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "rana_eg",
+    "Email": "rana_eg@example.com",
+    "Gender": "Female",
+    "BirthDate": "1993-01-01T00:00:00",
+    "PasswordHash": "13579246",
+    "PhoneNumber": "01090127890",
+    "CreatedAt": "2025-02-08T19:19:19",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "karim_code",
+    "Email": "karim_code@example.com",
+    "Gender": "Male",
+    "BirthDate": "1989-04-04T00:00:00",
+    "PasswordHash": "24681357",
+    "PhoneNumber": "01201238901",
+    "CreatedAt": "2025-03-12T06:06:06",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "nouran_x",
+    "Email": "nouran_x@example.com",
+    "Gender": "Female",
+    "BirthDate": "1995-10-10T00:00:00",
+    "PasswordHash": "10101010",
+    "PhoneNumber": "01112349012",
+    "CreatedAt": "2025-01-20T20:20:20",
+    "VerificationCode": null,
+    "EmailVerified": false
+  },
+  {
+    "Username": "hazem90",
+    "Email": "hazem90@example.com",
+    "Gender": "Male",
+    "BirthDate": "1991-06-06T00:00:00",
+    "PasswordHash": "90909090",
+    "PhoneNumber": "01023450123",
+    "CreatedAt": "2025-03-18T23:23:23",
+    "VerificationCode": null,
+    "EmailVerified": false
+  }
+]

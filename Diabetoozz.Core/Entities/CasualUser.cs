@@ -15,6 +15,8 @@ namespace Diabetes.Core.Entities
             public string PasswordHash { get; set; }
             public string PhoneNumber { get; set; }
             public DateTime? CreatedAt { get; set; }
+            public string? VerificationCode { get; set; }
+            public bool EmailVerified { get; set; } = false;
 
 
 

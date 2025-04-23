@@ -12,12 +12,8 @@ namespace Diabetes.Repository.Data
     public static class StoreContextSeed
     {
         // Seeding
-        public static async Task SeedAsnc(StoreContext DbContext)
+        public static async Task SeedAsync(StoreContext DbContext)
         {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
 
 
             if (!DbContext.Admins.Any())
