@@ -1,4 +1,5 @@
 ﻿using Diabetes.Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,18 +13,20 @@ using System.Threading.Tasks;
 
 namespace Diabetes.Repository.Data
 {
-    public class StoreContext : DbContext
+    public class StoreContext : IdentityDbContext<ApplicationUser>
+
     {
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
 
         }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Fluent Api
-
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            
         }
 
         public DbSet<Admin> Admins { get; set; }//1

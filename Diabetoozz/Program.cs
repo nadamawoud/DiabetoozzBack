@@ -1,6 +1,8 @@
 ﻿using Diabetes.Core.Entities;
 using Diabetes.Repository;
 using Diabetes.Repository.Data;
+using Diabetes.Services;
+using Diabetes.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,11 @@ namespace Diabetes.APIs
             builder.Services.AddControllers();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
-            builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+            var emailConfig = builder.Configuration
+            .GetSection("EmailConfiguration")
+            .Get<EmailConfiguration>();
+
+            builder.Services.AddSingleton(emailConfig);
             builder.Services.AddEndpointsApiExplorer();
 
             // تكوين Swagger مع JWT
