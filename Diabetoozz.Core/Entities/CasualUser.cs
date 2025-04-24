@@ -22,7 +22,7 @@ namespace Diabetes.Core.Entities
 
 
         // Navigation properties
-        public int AdminID { get; set; }
+        public int? AdminID { get; set; }
         public Admin Admin { get; set; }
             public ICollection<BloodSugar> BloodSugars { get; set; }
             public ICollection<Alarm> Alarms { get; set; }

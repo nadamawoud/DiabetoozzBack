@@ -23,7 +23,7 @@ namespace Diabetes.Core.Entities
 
         // Foreign Key
 
-        public int AdminID { get; set; }
+        public int? AdminID { get; set; }
 
         // Navigation Property
         public Admin Admin { get; set; } // العلاقة مع Admin

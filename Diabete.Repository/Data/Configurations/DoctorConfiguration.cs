@@ -10,8 +10,6 @@ namespace Diabetes.Data.Configurations
         {
             builder.ToTable("Doctors");
 
-            
-
             builder.Property(d => d.DoctorSpecialization).HasMaxLength(100).IsRequired();
             builder.Property(d => d.Name).HasMaxLength(200).IsRequired();
             builder.Property(d => d.BirthDate).IsRequired();
@@ -21,17 +19,21 @@ namespace Diabetes.Data.Configurations
             builder.Property(d => d.Email).HasMaxLength(250).IsRequired();
             builder.Property(d => d.PasswordHash).HasMaxLength(500).IsRequired();
 
-            // علاقة Many-to-One مع Admin
+            // علاقة Many-to-One مع Admin (معدلة)
             builder.HasOne(d => d.Admin)
                 .WithMany(a => a.Doctors)
-                .HasForeignKey(d => d.AdminID);
+                .HasForeignKey(d => d.AdminID)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
+
+            // إضافة القيمة الافتراضية لـ AdminID
+            builder.Property(d => d.AdminID)
+                .HasDefaultValue(1);
 
             // علاقة One-to-One مع DoctorApproval
             builder.HasOne(d => d.DoctorApproval)
                 .WithOne(da => da.Doctor)
                 .HasForeignKey<DoctorApproval>(da => da.DoctorID);
-
-                           
 
             // علاقة One-to-Many مع MedicalHistory
             builder.HasMany(d => d.MedicalHistories)

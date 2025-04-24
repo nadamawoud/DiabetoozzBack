@@ -1,136 +1,239 @@
 ﻿using Diabetes.Core.DTOs;
 using Diabetes.Core.Entities;
 using Diabetes.Repository.Data;
-using Diabetes.Services.Auth;
 using Diabetes.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
-public class AuthService : IAuthService
+namespace Diabetes.Services.Auth
 {
-    private readonly StoreContext _context;
-    private readonly IEmailService _emailService;
-
-    public AuthService(StoreContext context, IEmailService emailService)
+    public class AuthService : IAuthService
     {
-        _context = context;
-        _emailService = emailService;
-    }
+        private readonly StoreContext _context;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<AuthService> _logger;
 
-    public async Task<ServiceResponse> RegisterCasualUser(CasualUserRegisterDto dto)
-    {
-        var userExists = await _context.CasualUsers.AnyAsync(x => x.Email == dto.Email);
-        if (userExists)
-            return new ServiceResponse(false, "هذا البريد مستخدم من قبل.");
-
-        var casualUser = new CasualUser
+        public AuthService(
+            StoreContext context,
+            IEmailService emailService,
+            ILogger<AuthService> logger)
         {
-            Username = dto.Username,
-            Email = dto.Email,
-            BirthDate = dto.BirthDate,
-            Gender = dto.Gender,
-            PhoneNumber = dto.PhoneNumber,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-            CreatedAt = DateTime.UtcNow,
-            VerificationCode = GenerateVerificationCode(),
-            EmailVerified = false
-        };
+            _context = context;
+            _emailService = emailService;
+            _logger = logger;
+        }
 
-        _context.CasualUsers.Add(casualUser);
-        await _context.SaveChangesAsync();
-
-        await _emailService.SendVerificationEmail(dto.Email, casualUser.VerificationCode);
-
-        return new ServiceResponse(true, "تم التسجيل بنجاح، تحقق من بريدك الإلكتروني.");
-    }
-
-    public async Task<ServiceResponse> RegisterClerk(ClerkRegisterDto dto)
-    {
-        var exists = await _context.Clerks.AnyAsync(x => x.Email == dto.Email);
-        if (exists)
-            return new ServiceResponse(false, "البريد الإلكتروني مستخدم من قبل.");
-
-        var clerk = new Clerk
+        public async Task<ServiceResponse> RegisterCasualUser(CasualUserRegisterDto dto)
         {
-            Name = dto.Name,
-            Email = dto.Email,
-            BirthDate = dto.BirthDate,
-            Gender = dto.Gender,
-            PhoneNumber = dto.PhoneNumber,
-            LicenseCode = dto.LicenseCode,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-            VerificationCode = GenerateVerificationCode(),
-            CreatedAt = DateTime.UtcNow,
-            IsEmailVerified = false
-        };
+            try
+            {
+                var userExists = await _context.CasualUsers.AnyAsync(x => x.Email == dto.Email);
+                if (userExists)
+                {
+                    _logger.LogWarning($"Registration attempt with existing email: {dto.Email}");
+                    return new ServiceResponse(false, "هذا البريد مستخدم من قبل.");
+                }
 
-        _context.Clerks.Add(clerk);
-        await _context.SaveChangesAsync();
+                var verificationCode = GenerateVerificationCode();
+                var casualUser = new CasualUser
+                {
+                    Username = dto.Username,
+                    Email = dto.Email,
+                    BirthDate = dto.BirthDate,
+                    Gender = dto.Gender,
+                    PhoneNumber = dto.PhoneNumber,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                    CreatedAt = DateTime.UtcNow,
+                    VerificationCode = verificationCode,
+                    EmailVerified = false
+                };
 
-        await _emailService.SendVerificationEmail(clerk.Email, clerk.VerificationCode);
+                _context.CasualUsers.Add(casualUser);
+                await _context.SaveChangesAsync();
 
-        return new ServiceResponse(true, "تم التسجيل بنجاح، تحقق من بريدك الإلكتروني.");
-    }
+                try
+                {
+                    await _emailService.SendVerificationEmail(dto.Email, verificationCode);
+                    _logger.LogInformation($"User registered successfully: {dto.Email}");
+                    return new ServiceResponse(true, "تم التسجيل بنجاح، تحقق من بريدك الإلكتروني.");
+                }
+                catch (EmailSendException ex)
+                {
+                    _logger.LogError(ex, $"Failed to send verification email to {dto.Email}");
+                    casualUser.EmailVerified = false;
+                    await _context.SaveChangesAsync();
+                    return new ServiceResponse(false, "تم التسجيل ولكن فشل إرسال بريد التحقق. يرجى المحاولة لاحقاً.");
+                }
+            }
+            catch (DbUpdateException dbEx)
+            {
+                _logger.LogError(dbEx, "Database error during registration");
+                return new ServiceResponse(false, "حدث خطأ في قاعدة البيانات أثناء التسجيل.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error during registration");
+                return new ServiceResponse(false, "حدث خطأ غير متوقع أثناء التسجيل.");
+            }
+        }
 
-    public async Task<ServiceResponse> RegisterDoctor(DoctorRegisterDto dto)
-    {
-        var exists = await _context.Doctors.AnyAsync(x => x.Email == dto.Email);
-        if (exists)
-            return new ServiceResponse(false, "البريد الإلكتروني مستخدم من قبل.");
-
-        var doctor = new Doctor
+        public async Task<ServiceResponse> RegisterClerk(ClerkRegisterDto dto)
         {
-            Name = dto.Name,
-            DoctorSpecialization = dto.DoctorSpecialization,
-            Email = dto.Email,
-            BirthDate = dto.BirthDate,
-            Gender = dto.Gender,
-            PhoneNumber = dto.PhoneNumber,
-            MedicalSyndicateCardNumber = dto.MedicalSyndicateCardNumber,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-            CreatedAt = DateTime.UtcNow,
-            IsApproved = false
-        };
+            try
+            {
+                var clerkExists = await _context.Clerks.AnyAsync(x => x.Email == dto.Email);
+                if (clerkExists)
+                {
+                    _logger.LogWarning($"Registration attempt with existing clerk email: {dto.Email}");
+                    return new ServiceResponse(false, "هذا البريد مستخدم من قبل.");
+                }
 
-        _context.Doctors.Add(doctor);
-        await _context.SaveChangesAsync();
+                var verificationCode = GenerateVerificationCode();
+                var clerk = new Clerk
+                {
+                    Name = dto.Name,
+                    Email = dto.Email,
+                    BirthDate = dto.BirthDate,
+                    Gender = dto.Gender,
+                    PhoneNumber = dto.PhoneNumber,
+                    LicenseCode = dto.LicenseCode,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                    VerificationCode = verificationCode,
+                    CreatedAt = DateTime.UtcNow,
+                    IsEmailVerified = false
+                };
 
-        return new ServiceResponse(true, "تم تسجيل الطبيب بنجاح بانتظار موافقة النقابة.");
-    }
+                _context.Clerks.Add(clerk);
+                await _context.SaveChangesAsync();
 
-    public async Task<ServiceResponse> VerifyCasualUserEmail(VerifyEmailDto dto)
-    {
-        var user = await _context.CasualUsers.FirstOrDefaultAsync(x => x.Email == dto.Email);
-        if (user == null)
-            return new ServiceResponse(false, "البريد غير مسجل.");
+                try
+                {
+                    await _emailService.SendVerificationEmail(dto.Email, verificationCode);
+                    _logger.LogInformation($"Clerk registered successfully: {dto.Email}");
+                    return new ServiceResponse(true, "تم تسجيل الموظف بنجاح، تحقق من بريدك الإلكتروني.");
+                }
+                catch (EmailSendException ex)
+                {
+                    _logger.LogError(ex, $"Failed to send verification email to {dto.Email}");
+                    clerk.IsEmailVerified = false;
+                    await _context.SaveChangesAsync();
+                    return new ServiceResponse(false, "تم التسجيل ولكن فشل إرسال بريد التحقق. يرجى المحاولة لاحقاً.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during clerk registration");
+                return new ServiceResponse(false, "حدث خطأ أثناء تسجيل الموظف.");
+            }
+        }
 
-        if (user.VerificationCode != dto.Code)
-            return new ServiceResponse(false, "رمز التحقق غير صحيح.");
+        public async Task<ServiceResponse> RegisterDoctor(DoctorRegisterDto dto)
+        {
+            try
+            {
+                var doctorExists = await _context.Doctors.AnyAsync(x => x.Email == dto.Email);
+                if (doctorExists)
+                {
+                    _logger.LogWarning($"Registration attempt with existing doctor email: {dto.Email}");
+                    return new ServiceResponse(false, "هذا البريد مستخدم من قبل.");
+                }
 
-        user.EmailVerified = true;
-        user.VerificationCode = null;
-        await _context.SaveChangesAsync();
+                var doctor = new Doctor
+                {
+                    Name = dto.Name,
+                    DoctorSpecialization = dto.DoctorSpecialization,
+                    Email = dto.Email,
+                    BirthDate = dto.BirthDate,
+                    Gender = dto.Gender,
+                    PhoneNumber = dto.PhoneNumber,
+                    MedicalSyndicateCardNumber = dto.MedicalSyndicateCardNumber,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                    CreatedAt = DateTime.UtcNow,
+                    IsApproved = false
+                };
 
-        return new ServiceResponse(true, "تم التحقق من البريد الإلكتروني بنجاح.");
-    }
+                _context.Doctors.Add(doctor);
+                await _context.SaveChangesAsync();
 
-    public async Task<ServiceResponse> VerifyClerkEmail(VerifyEmailDto dto)
-    {
-        var clerk = await _context.Clerks.FirstOrDefaultAsync(x => x.Email == dto.Email);
-        if (clerk == null)
-            return new ServiceResponse(false, "البريد غير مسجل.");
+                _logger.LogInformation($"Doctor registered successfully: {dto.Email}");
+                return new ServiceResponse(true, "تم تسجيل الطبيب بنجاح بانتظار موافقة النقابة.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during doctor registration");
+                return new ServiceResponse(false, "حدث خطأ أثناء تسجيل الطبيب.");
+            }
+        }
 
-        if (clerk.VerificationCode != dto.Code)
-            return new ServiceResponse(false, "رمز التحقق غير صحيح.");
+        public async Task<ServiceResponse> VerifyCasualUserEmail(VerifyEmailDto dto)
+        {
+            try
+            {
+                var user = await _context.CasualUsers.FirstOrDefaultAsync(x => x.Email == dto.Email);
+                if (user == null)
+                {
+                    _logger.LogWarning($"Verification attempt for non-existent email: {dto.Email}");
+                    return new ServiceResponse(false, "البريد غير مسجل.");
+                }
 
-        clerk.IsEmailVerified = true;
-        clerk.VerificationCode = null;
-        await _context.SaveChangesAsync();
+                if (user.VerificationCode != dto.Code)
+                {
+                    _logger.LogWarning($"Invalid verification code for email: {dto.Email}");
+                    return new ServiceResponse(false, "رمز التحقق غير صحيح.");
+                }
 
-        return new ServiceResponse(true, "تم تفعيل البريد الإلكتروني للكاتب.");
-    }
+                user.EmailVerified = true;
+                user.VerificationCode = null;
+                await _context.SaveChangesAsync();
 
-    private string GenerateVerificationCode()
-    {
-        return new Random().Next(100000, 999999).ToString();
+                _logger.LogInformation($"Email verified successfully: {dto.Email}");
+                return new ServiceResponse(true, "تم التحقق من البريد الإلكتروني بنجاح.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error during email verification for {dto.Email}");
+                return new ServiceResponse(false, "حدث خطأ أثناء التحقق من البريد الإلكتروني.");
+            }
+        }
+
+        public async Task<ServiceResponse> VerifyClerkEmail(VerifyEmailDto dto)
+        {
+            try
+            {
+                var clerk = await _context.Clerks.FirstOrDefaultAsync(x => x.Email == dto.Email);
+                if (clerk == null)
+                {
+                    _logger.LogWarning($"Verification attempt for non-existent clerk email: {dto.Email}");
+                    return new ServiceResponse(false, "البريد غير مسجل.");
+                }
+
+                if (clerk.VerificationCode != dto.Code)
+                {
+                    _logger.LogWarning($"Invalid verification code for clerk email: {dto.Email}");
+                    return new ServiceResponse(false, "رمز التحقق غير صحيح.");
+                }
+
+                clerk.IsEmailVerified = true;
+                clerk.VerificationCode = null;
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation($"Clerk email verified successfully: {dto.Email}");
+                return new ServiceResponse(true, "تم التحقق من بريد الموظف الإلكتروني بنجاح.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error during clerk email verification for {dto.Email}");
+                return new ServiceResponse(false, "حدث خطأ أثناء التحقق من بريد الموظف الإلكتروني.");
+            }
+        }
+
+        private string GenerateVerificationCode()
+        {
+            using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+            var byteArray = new byte[4];
+            rng.GetBytes(byteArray);
+            var number = BitConverter.ToUInt32(byteArray, 0) % 1000000;
+            return number.ToString("D6");
+        }
     }
 }

@@ -6,7 +6,9 @@ using Diabetes.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -22,16 +24,17 @@ namespace Diabetes.APIs
             #region Configure Services
             // الأساسيات
             builder.Services.AddControllers();
+
+            // تكوين الخدمات
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
-            var emailConfig = builder.Configuration
-            .GetSection("EmailConfiguration")
-            .Get<EmailConfiguration>();
 
-            builder.Services.AddSingleton(emailConfig);
+            // تكوين إعدادات البريد الإلكتروني
+            builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+
             builder.Services.AddEndpointsApiExplorer();
 
-            // تكوين Swagger مع JWT
+            // تكوين Swagger
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -123,6 +126,24 @@ namespace Diabetes.APIs
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred during migration");
+                }
+            }
+            #endregion
+
+            #region Email Test (Development Only)
+            if (app.Environment.IsDevelopment())
+            {
+                using var scope = app.Services.CreateScope();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                try
+                {
+                    var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+                    await emailService.SendVerificationEmail("test@example.com", "123456");
+                    logger.LogInformation("Test email sent successfully!");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Failed to send test email");
                 }
             }
             #endregion

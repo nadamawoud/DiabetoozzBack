@@ -19,7 +19,7 @@ namespace Diabetes.Core.Entities
         public DateTime? CreatedAt { get; set; }
         public bool IsApproved { get; set; } = false;
         // Navigation properties
-        public int AdminID { get; set; }
+        public int? AdminID { get; set; }
         public Admin Admin { get; set; }
         
         public DoctorApproval DoctorApproval { get; set; }
