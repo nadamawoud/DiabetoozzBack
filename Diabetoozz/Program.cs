@@ -1,4 +1,5 @@
 ﻿using Diabetes.Core.Entities;
+using Diabetes.Core.Interfaces;
 using Diabetes.Repository;
 using Diabetes.Repository.Data;
 using Diabetes.Services;
@@ -25,16 +26,22 @@ namespace Diabetes.APIs
             // الأساسيات
             builder.Services.AddControllers();
 
-            // تكوين الخدمات
+            // ============= الإضافات الجديدة =============
+            // تسجيل خدمات المصادقة
+            builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+            builder.Services.AddScoped<ILoginService, LoginService>();
+            // ============================================
+
+            // تكوين الخدمات (الكود القديم يبقى كما هو)
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
 
-            // تكوين إعدادات البريد الإلكتروني
+            // تكوين إعدادات البريد الإلكتروني (الكود القديم)
             builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 
             builder.Services.AddEndpointsApiExplorer();
 
-            // تكوين Swagger
+            // تكوين Swagger (الكود القديم يبقى كما هو)
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -43,7 +50,6 @@ namespace Diabetes.APIs
                     Version = "v1"
                 });
 
-                // تعريف نظام الأمان
                 var securityScheme = new OpenApiSecurityScheme
                 {
                     Name = "JWT Authentication",
@@ -65,11 +71,11 @@ namespace Diabetes.APIs
                 });
             });
 
-            // تكوين قاعدة البيانات
+            // تكوين قاعدة البيانات (الكود القديم يبقى كما هو)
             builder.Services.AddDbContext<StoreContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // تكوين الهوية
+            // تكوين الهوية (الكود القديم يبقى كما هو)
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -81,7 +87,7 @@ namespace Diabetes.APIs
             .AddEntityFrameworkStores<StoreContext>()
             .AddDefaultTokenProviders();
 
-            // تكوين JWT
+            // تكوين JWT (الكود القديم يبقى كما هو)
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -98,7 +104,7 @@ namespace Diabetes.APIs
                     };
                 });
 
-            // سياسة CORS
+            // سياسة CORS (الكود القديم يبقى كما هو)
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
@@ -112,7 +118,7 @@ namespace Diabetes.APIs
 
             var app = builder.Build();
 
-            #region Database Migration
+            #region Database Migration 
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -130,7 +136,7 @@ namespace Diabetes.APIs
             }
             #endregion
 
-            #region Email Test (Development Only)
+            #region Email Test (Development Only) 
             if (app.Environment.IsDevelopment())
             {
                 using var scope = app.Services.CreateScope();
@@ -148,7 +154,7 @@ namespace Diabetes.APIs
             }
             #endregion
 
-            #region Middleware Pipeline
+            #region Middleware Pipeline 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

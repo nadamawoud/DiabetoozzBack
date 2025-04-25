@@ -82,29 +82,18 @@ namespace Diabetes.Services
             client.Timeout = 30000;
             client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
+            // Mailjet requires explicit StartTLS on port 587
             await client.ConnectAsync(
-                _emailConfig.SmtpServer,
-                _emailConfig.Port,
-                GetSecureSocketOption(_emailConfig.Port));
+                _emailConfig.SmtpServer,  // in-v3.mailjet.com
+                _emailConfig.Port,        // 587
+                MailKit.Security.SecureSocketOptions.StartTls);
 
-            if (!string.IsNullOrEmpty(_emailConfig.UserName))
-            {
-                await client.AuthenticateAsync(
-                    _emailConfig.UserName,
-                    _emailConfig.Password);
-            }
+            // Mailjet uses API Key as username and Secret Key as password
+            await client.AuthenticateAsync(
+                _emailConfig.UserName,    // Your Mailjet API Key
+                _emailConfig.Password);  // Your Mailjet Secret Key
 
             await client.SendAsync(message);
-        }
-
-        private MailKit.Security.SecureSocketOptions GetSecureSocketOption(int port)
-        {
-            return port switch
-            {
-                465 => MailKit.Security.SecureSocketOptions.SslOnConnect,
-                587 => MailKit.Security.SecureSocketOptions.StartTls,
-                _ => MailKit.Security.SecureSocketOptions.Auto
-            };
         }
     }
 
