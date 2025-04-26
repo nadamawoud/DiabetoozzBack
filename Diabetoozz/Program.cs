@@ -1,7 +1,7 @@
 ﻿using Diabetes.Core.Entities;
-using Diabetes.Core.Interfaces;
 using Diabetes.Repository;
 using Diabetes.Repository.Data;
+
 using Diabetes.Services;
 using Diabetes.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Diabetes.APIs
 {
@@ -26,16 +28,12 @@ namespace Diabetes.APIs
             // الأساسيات
             builder.Services.AddControllers();
 
-            // ============= الإضافات الجديدة =============
-            // تسجيل خدمات المصادقة
-            builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-            builder.Services.AddScoped<ILoginService, LoginService>();
+            
             // ============================================
-
+            
             // تكوين الخدمات (الكود القديم يبقى كما هو)
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
-
             // تكوين إعدادات البريد الإلكتروني (الكود القديم)
             builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 
@@ -86,23 +84,32 @@ namespace Diabetes.APIs
             })
             .AddEntityFrameworkStores<StoreContext>()
             .AddDefaultTokenProviders();
-
-            // تكوين JWT (الكود القديم يبقى كما هو)
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ClerkOnly", policy =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-                        ValidAudience = builder.Configuration["JwtSettings:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
-                    };
+                    policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireRole("Clerk");
                 });
+            });
+            // تكوين JWT 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+             ValidateIssuer = true,
+             ValidateAudience = true,
+             ValidateLifetime = true,
+             ValidateIssuerSigningKey = true,
+             ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+             ValidAudience = builder.Configuration["JwtSettings:Audience"],
+             IssuerSigningKey = new SymmetricSecurityKey(
+               Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])),
+             RoleClaimType = ClaimTypes.Role,
+             NameClaimType = ClaimTypes.Email
+            };
+            });
 
             // سياسة CORS (الكود القديم يبقى كما هو)
             builder.Services.AddCors(options =>

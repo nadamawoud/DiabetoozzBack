@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Diabetoozz.Core\Diabetes.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

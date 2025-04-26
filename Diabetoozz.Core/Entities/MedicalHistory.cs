@@ -10,8 +10,7 @@ namespace Diabetes.Core.Entities
     public class MedicalHistory : BaseEntity
     {
         // Navigation properties
-
-        
+       
         public DateTime DiagnosisDate { get; set; }
         public int DiagnosisTypeID { get; set; }
         public DiagnosisType DiagnosisType { get; set; }
